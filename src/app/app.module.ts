@@ -1,20 +1,18 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
 
-import { AppComponent } from './app.component';
-import { PlaylistComponent } from './playlist/playlist.component';
-import { HeaderComponent } from './playlist/header/header.component';
+import {AppComponent} from './app.component';
+import {PlaylistModule} from '@app/playlist/playlist.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    PlaylistComponent,
-    HeaderComponent
+    AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    PlaylistModule
   ],
   providers: [],
   bootstrap: [AppComponent]
