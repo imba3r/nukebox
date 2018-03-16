@@ -1,13 +1,13 @@
 <mat-list>
-  <mat-list-item *ngFor="let song of queue">
+  <mat-list-item *ngFor="let track of queue">
     <div fxLayout fxLayoutAlign="space-between center" fxFlex>
-      {{song.title}} ({{song.votes}})
+      {{track.name}}
 
       <div class="button-row right">
-        <button mat-icon-button (click)="voteUp(song.id)">
+        <button mat-icon-button (click)="voteUp(track.id)">
           <mat-icon aria-label="Up">thumb_up</mat-icon>
         </button>
-        <button mat-icon-button (click)="voteDown(song.id)">
+        <button mat-icon-button (click)="voteDown(track.id)">
           <mat-icon aria-label="Down">thumb_down</mat-icon>
         </button>
       </div>

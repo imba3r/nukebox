@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Song} from '@app/playlist/types/song';
+import {Track} from '@app/types';
 
 @Component({
   selector: 'nbx-nowplaying',
@@ -8,7 +8,7 @@ import {Song} from '@app/playlist/types/song';
 })
 export class NowplayingComponent implements OnInit {
 
-  @Input() song: Song;
+  @Input() track: Track;
 
   constructor() { }
 
