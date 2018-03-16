@@ -1,11 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { environment } from '@env/environment';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { AppComponent } from './app.component';
-import { AngularFireModule } from 'angularfire2';
-import { environment } from '@env/environment';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { SessionService } from '@app/services/session.service';
+import { SessionService } from './services/session.service';
 
 @NgModule({
   declarations: [
