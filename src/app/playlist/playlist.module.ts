@@ -7,6 +7,9 @@ import {
   MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule,
   MatListModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatTabsModule, MatToolbarModule
 } from '@angular/material';
+import { HeaderComponent } from './components/header/header.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import { AddsongComponent } from './components/addsong/addsong.component';
 
 @NgModule({
   imports: [
@@ -22,12 +25,15 @@ import {
     MatSidenavModule,
     MatRadioModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    FlexLayoutModule
   ],
   declarations: [
     PlaylistComponent,
     NowplayingComponent,
     QueueComponent,
+    HeaderComponent,
+    AddsongComponent,
   ],
   exports: [
     PlaylistComponent
