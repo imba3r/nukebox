@@ -1,4 +1,4 @@
 export interface SpotifyConfig {
-  privateKey: string;
-  publicKey: string;
+  privateKey?: string;
+  publicKey?: string;
 }
