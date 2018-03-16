@@ -1,3 +1,9 @@
-<p>
-  nowplaying works!
-</p>
+<div class="nbx-playing-detail">
+  <mat-card>
+    <mat-card-title-group class="fullBleed">
+      <img *ngIf="currentsong?.image" mat-card-md-image [src]="currentsong?.image || ''">
+      <mat-card-title>{{currentsong?.title}}</mat-card-title>
+      <mat-card-subtitle>{{currentsong?.artist || 'No artist'}}</mat-card-subtitle>
+    </mat-card-title-group>
+  </mat-card>
+</div>

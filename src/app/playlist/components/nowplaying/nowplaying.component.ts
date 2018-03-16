@@ -8,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class NowplayingComponent implements OnInit {
 
   currentsong =  {
-    title: 'currentsong'
+    title: 'Surfing on Las Palmas',
+    artist: 'DJ Dutch Guy',
+    image: ''
   };
 
   constructor() { }
