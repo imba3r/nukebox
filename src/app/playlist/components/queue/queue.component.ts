@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Song} from '@app/playlist/types/song';
+import {PlaylistService} from '@app/playlist/services/playlist.service';
 
 @Component({
   selector: 'nbx-queue',
@@ -15,4 +16,11 @@ export class QueueComponent implements OnInit {
   ngOnInit() {
   }
 
+  voteUp(songId) {
+    PlaylistService.voteUp(songId);
+  }
+
+  voteDown(songId) {
+    PlaylistService.voteDown(songId);
+  }
 }

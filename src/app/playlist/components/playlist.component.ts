@@ -27,18 +27,21 @@ export class PlaylistComponent implements OnInit {
 
     this.queue = [];
     this.queue.push({
+      id: '1',
       title: 'Next song',
       artist: 'artist',
       image: '',
       votes: 3
     });
     this.queue.push({
+      id: '2',
       title: 'Another one',
       artist: 'artist',
       image: '',
       votes: 2
     });
     this.queue.push({
+      id: '3',
       title: 'Song',
       artist: 'artist',
       image: '',
