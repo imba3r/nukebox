@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Song} from '@app/playlist/types/song';
+import {Device} from '@app/playlist/types/device';
 
 @Component({
   selector: 'nbx-playlist',
@@ -7,7 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlaylistComponent implements OnInit {
 
-  constructor() { }
+  currentsong: Song;
+  device: Device;
+  queue: Array<Song>;
+
+  constructor() {
+    this.currentsong = {
+      title: 'Surfing on Las Palmas',
+      artist: 'DJ Dutch Guy',
+      image: ''
+    };
+
+    this.device = {
+      name: 'Nikolas boombox'
+    };
+
+    this.queue = [];
+    this.queue.push({
+      title: 'next song',
+      artist: 'artist',
+      image: ''
+    });
+  }
 
   ngOnInit() {
   }

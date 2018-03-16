@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Song} from '@app/playlist/types/song';
 
 @Component({
   selector: 'nbx-nowplaying',
@@ -7,11 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NowplayingComponent implements OnInit {
 
-  currentsong =  {
-    title: 'Surfing on Las Palmas',
-    artist: 'DJ Dutch Guy',
-    image: ''
-  };
+  @Input() song: Song;
 
   constructor() { }
 

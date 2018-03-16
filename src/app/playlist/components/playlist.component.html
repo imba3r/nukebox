@@ -17,7 +17,7 @@
   <!--</a>-->
 <!--</mat-list>-->
 
-<nbx-header></nbx-header>
-<nbx-nowplaying></nbx-nowplaying>
-<nbx-queue></nbx-queue>
+<nbx-header [device]="device"></nbx-header>
+<nbx-nowplaying [song]="currentsong"></nbx-nowplaying>
+<nbx-queue [queue]="queue"></nbx-queue>
 <nbx-addsong></nbx-addsong>

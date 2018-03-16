@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Song} from '@app/playlist/types/song';
 
 @Component({
   selector: 'nbx-queue',
@@ -6,7 +7,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./queue.component.scss']
 })
 export class QueueComponent implements OnInit {
-  songs = ['Down by the River', 'Song2'];
+  @Input() queue: Array<Song>;
 
   constructor() {
   }

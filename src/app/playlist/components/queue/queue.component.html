@@ -1,7 +1,7 @@
-<mat-list #songlist>
-  <mat-list-item *ngFor="let song of songs">
+<mat-list>
+  <mat-list-item *ngFor="let song of queue">
     <div fxLayout fxLayoutAlign="space-between center" fxFlex>
-      {{song}}
+      {{song.title}}
 
       <div class="button-row right">
         <button mat-icon-button>

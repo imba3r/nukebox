@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Device} from '@app/playlist/types/device';
 
 @Component({
   selector: 'nbx-header',
@@ -6,10 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  device = {
-    name: 'Nikolas boombox'
-  };
+  @Input() device: Device;
 
   constructor() { }
 
