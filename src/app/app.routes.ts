@@ -1,4 +1,4 @@
-import {PlaylistComponent} from '@app/playlist/playlist.component';
+import {PlaylistComponent} from '@app/playlist/components/playlist.component';
 import {Routes} from '@angular/router';
 
 export const APP_ROUTES: Routes = [
