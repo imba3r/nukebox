@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Song} from '@app/playlist/types/song';
 import {Device} from '@app/playlist/types/device';
 import {PlaylistService} from '@app/playlist/services/playlist.service';
 import {Observable} from 'rxjs/Observable';
