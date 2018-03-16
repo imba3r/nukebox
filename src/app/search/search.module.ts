@@ -6,11 +6,13 @@ import { AdditionalFiltersComponent } from './additional-filters/additional-filt
 import { SearchAutocompleteComponent } from './search-autocomplete/search-autocomplete.component';
 import { SearchComponent } from './search.component';
 import { SearchService } from '@app/search/search.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
     MatCardModule,
+    HttpClientModule,
   ],
   declarations: [
     AdditionalFiltersComponent,
