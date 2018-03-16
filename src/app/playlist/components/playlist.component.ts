@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Song} from '@app/playlist/types/song';
 import {Device} from '@app/playlist/types/device';
+import {PlaylistService} from '@app/playlist/services/playlist.service';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'nbx-playlist',
@@ -9,44 +11,16 @@ import {Device} from '@app/playlist/types/device';
 })
 export class PlaylistComponent implements OnInit {
 
-  currentsong: Song;
-  device: Device;
-  queue: Array<Song>;
+  currentsong$: Observable<Song>;
+  device$: Observable<Device>;
+  queue$: Observable<Array<Song>>;
 
   constructor() {
-    this.currentsong = {
-      title: 'Surfing on Las Palmas',
-      artist: 'DJ Dutch Guy',
-      image: '',
-      votes: 4
-    };
+    this.currentsong$ = PlaylistService.getCurrentSong();
 
-    this.device = {
-      name: 'Nikolas boombox'
-    };
+    this.device$ = PlaylistService.getDevice();
 
-    this.queue = [];
-    this.queue.push({
-      id: '1',
-      title: 'Next song',
-      artist: 'artist',
-      image: '',
-      votes: 3
-    });
-    this.queue.push({
-      id: '2',
-      title: 'Another one',
-      artist: 'artist',
-      image: '',
-      votes: 2
-    });
-    this.queue.push({
-      id: '3',
-      title: 'Song',
-      artist: 'artist',
-      image: '',
-      votes: 2
-    });
+    this.queue$ = PlaylistService.getQueue();
   }
 
   ngOnInit() {

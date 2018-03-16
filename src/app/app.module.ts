@@ -4,7 +4,6 @@ import {environment} from '@env/environment';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 
-
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {PreloadAllModules, RouterModule} from '@angular/router';
