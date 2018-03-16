@@ -1,7 +1,7 @@
 <mat-list>
   <mat-list-item *ngFor="let song of queue">
     <div fxLayout fxLayoutAlign="space-between center" fxFlex>
-      {{song.title}}
+      {{song.title}} ({{song.votes}})
 
       <div class="button-row right">
         <button mat-icon-button>

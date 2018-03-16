@@ -17,7 +17,8 @@ export class PlaylistComponent implements OnInit {
     this.currentsong = {
       title: 'Surfing on Las Palmas',
       artist: 'DJ Dutch Guy',
-      image: ''
+      image: '',
+      votes: 4
     };
 
     this.device = {
@@ -26,9 +27,22 @@ export class PlaylistComponent implements OnInit {
 
     this.queue = [];
     this.queue.push({
-      title: 'next song',
+      title: 'Next song',
       artist: 'artist',
-      image: ''
+      image: '',
+      votes: 3
+    });
+    this.queue.push({
+      title: 'Another one',
+      artist: 'artist',
+      image: '',
+      votes: 2
+    });
+    this.queue.push({
+      title: 'Song',
+      artist: 'artist',
+      image: '',
+      votes: 2
     });
   }
 
