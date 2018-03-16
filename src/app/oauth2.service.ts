@@ -3,6 +3,7 @@ import {NavigationExtras, Router} from '@angular/router';
 import {escape} from 'querystring';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import {tap} from 'rxjs/operators';
 
 @Injectable()
 export class Oauth2Service {
@@ -36,7 +37,7 @@ export class Oauth2Service {
   }
 
   public tokenChanges(): Observable<string> {
-    return this._tokenChanges.asObservable();
+    return this._tokenChanges.pipe(tap(console.log));
   }
 
   public get currentToken(): string {
@@ -45,12 +46,10 @@ export class Oauth2Service {
 
   public registerOAuthData(hashString: string) {
     const params = this.getParameters(hashString);
-    console.log(params);
     this.accessToken = params['access_token'];
     this.tokenType = params['token_type'];
     this.expiresIn = parseInt(params['expires_in'], 0);
     this._tokenChanges.next(params['access_token']);
-    console.info("Registered Token", params['access_token']);
   }
 
   private getParameters(hashString: string) {

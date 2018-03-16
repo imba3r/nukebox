@@ -8,13 +8,13 @@ import {Observable} from 'rxjs/Observable';
 })
 export class MasterClientComponent implements OnInit {
 
-  accessToken: Observable<string>;
+  accessToken: string;
 
   constructor(private oAuth2Service: Oauth2Service) {
   }
 
   ngOnInit(): void {
-    this.accessToken = this.oAuth2Service.tokenChanges();
+    this.accessToken = this.oAuth2Service.currentToken;
   }
 
 
