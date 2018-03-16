@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Song} from '@app/playlist/types/song';
 import {Device} from '@app/playlist/types/device';
 import {PlaylistService} from '@app/playlist/services/playlist.service';
 import {Observable} from 'rxjs/Observable';
+import {Track} from '@app/types/spotify/track-simplified.interface';
 
 @Component({
   selector: 'nbx-playlist',
@@ -11,12 +11,12 @@ import {Observable} from 'rxjs/Observable';
 })
 export class PlaylistComponent implements OnInit {
 
-  currentsong$: Observable<Song>;
+  currentTrack$: Observable<Track>;
   device$: Observable<Device>;
-  queue$: Observable<Array<Song>>;
+  queue$: Observable<Array<Track>>;
 
   constructor() {
-    this.currentsong$ = PlaylistService.getCurrentSong();
+    this.currentTrack$ = PlaylistService.getCurrentTrack();
 
     this.device$ = PlaylistService.getDevice();
 

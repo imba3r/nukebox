@@ -19,7 +19,7 @@
 
 <mat-card style="width: 50%; margin: auto">
 <nbx-header [device]="device$ | async"></nbx-header>
-<nbx-nowplaying [song]="currentsong$ | async"></nbx-nowplaying>
+<nbx-nowplaying [track]="currentTrack$ | async"></nbx-nowplaying>
 <nbx-queue [queue]="queue$ | async"></nbx-queue>
 <nbx-addsong></nbx-addsong>
 </mat-card>

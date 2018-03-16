@@ -1,19 +1,23 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {of} from 'rxjs/observable/of';
+import {Artist} from '@app/types/spotify/artist.interface';
+import {Album} from '@app/types/spotify/album-simplified.interface';
+import {Image} from '@app/types/spotify/image.interface';
 
 @Injectable()
 export class PlaylistService {
 
-  constructor() { }
-
-  static voteUp(songId: any) {
-    // fixme
-    console.log('voteUp ' + songId);
+  constructor() {
   }
 
-  static voteDown(songId: any) {
-    // fixme
-    console.log('voteDown ' + songId);
+  static voteUp(trackId: any) {
+    // fixme or index as argument?
+    console.log('voteUp ' + trackId);
+  }
+
+  static voteDown(trackId: any) {
+    // fixme or index as argument?
+    console.log('voteDown ' + trackId);
   }
 
   static addSong(trackId: string) {
@@ -22,40 +26,61 @@ export class PlaylistService {
   }
 
   static getQueue() {
-    return of([{
-      id: '1',
-      title: 'Next song',
-      artist: 'artist',
-      image: '',
-      votes: 3
-    }, {
-      id: '2',
-      title: 'Another one',
-      artist: 'artist',
-      image: '',
-      votes: 2
-    }, {
-      id: '3',
-      title: 'Song',
-      artist: 'artist',
-      image: '',
-      votes: 2
-    }]);
-  }
-
-  static getCurrentSong() {
-    return of({
-      id: '12jfdskfbk',
-      title: 'Surfing on Las Palmas',
-      artist: 'DJ Dutch Guy',
-      image: '',
-      votes: 4
-    });
+    return of([this.getDummyTrack(), this.getDummyTrack()]);
   }
 
   static getDevice() {
     return of({
       name: 'Nikolas boombox'
     });
+  }
+
+  static getCurrentTrack() {
+    return of(this.getDummyTrack());
+  }
+
+  private static getDummyAlbum() {
+    return {
+      album_type: '',
+      artists: [this.getDummyArtist()],
+      available_markets: [],
+      href: '',
+      id: '12342d',
+      images: [],
+      name: 'Album title',
+      release_date: '',
+      release_date_precision: '',
+      type: '',
+      uri: ''
+    };
+  }
+
+  private static getDummyArtist() {
+    return {
+      href: '',
+      id: 'jsjdafhjkf',
+      name: 'DJ Chris',
+      type: '',
+      uri: ''
+    };
+  }
+
+  private static getDummyTrack() {
+    return {
+      album: this.getDummyAlbum(),
+      artists: [this.getDummyArtist()],
+      available_markets: [],
+      disc_number: 1,
+      duration_ms: 2000,
+      explicit: false,
+      href: '',
+      id: '123',
+      name: 'dummy song',
+      popularity: 10,
+      preview_url: '',
+      track_number: 2,
+      type: '',
+      uri: ''
+    };
   }
 }
