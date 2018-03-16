@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {MatAutocompleteModule, MatCardModule, MatInputModule, MatSlideToggleModule} from '@angular/material';
 
-import { AdditionalFiltersComponent } from './additional-filters/additional-filters.component';
-import { SearchAutocompleteComponent } from './search-autocomplete/search-autocomplete.component';
-import { SearchComponent } from './search.component';
+import {SearchAutocompleteComponent} from './search-autocomplete/search-autocomplete.component';
+import {SearchComponent} from './search.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SearchService } from '@app/search/search.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -13,9 +14,13 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     MatCardModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatSlideToggleModule
   ],
   declarations: [
-    AdditionalFiltersComponent,
     SearchAutocompleteComponent,
     SearchComponent
   ],
