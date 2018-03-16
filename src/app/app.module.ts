@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '@env/environment';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { SessionService } from '@app/services/session.service';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
   ],
-  providers: [],
+  providers: [SessionService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
