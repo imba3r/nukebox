@@ -1,6 +1,8 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
+import { environment } from '@env/environment';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -16,6 +18,8 @@ export const ROUTES = [
   { path: 'master/login/success', component: LoginCallbackComponent },
   { path: '**', redirectTo: '' },
 ];
+import { AppComponent } from './app.component';
+import { SessionService } from './services/session.service';
 
 @NgModule({
   declarations: [
@@ -26,16 +30,12 @@ export const ROUTES = [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(ROUTES, { preloadingStrategy: PreloadAllModules })
+    BrowserModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [Oauth2Service],
+  providers: [SessionService],
   bootstrap: [AppComponent]
 })
-
-export class AppModule {
-
-  constructor() {
-
-  }
-
-
-  }
+export class AppModule { }
