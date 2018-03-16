@@ -33,12 +33,6 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/cdk@^5.2.4":
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-5.2.4.tgz#c0a429a8710d8fedb157f546e21cb49d4335f7f7"
-  dependencies:
-    tslib "^1.7.1"
-
 "@angular/cli@~6.0.0-beta.5":
   version "6.0.0-beta.5"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-6.0.0-beta.5.tgz#da877cfa2aa771cdd05923bf65740909752dccf0"
