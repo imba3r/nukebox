@@ -4,6 +4,7 @@ import {environment} from '@env/environment';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 
+
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {PreloadAllModules, RouterModule} from '@angular/router';
@@ -11,7 +12,9 @@ import {MasterClientModule} from '@app/master-client/master-client.module';
 import {Oauth2Service} from '@app/oauth2.service';
 import {SessionService} from './services/session.service';
 import {ROUTES} from '@app/routes';
-import { ClientComponent } from './client/client.component';
+import {ClientComponent} from './client/client.component';
+import {PlaylistModule} from '@app/playlist/playlist.module';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { ClientComponent } from './client/client.component';
     RouterModule.forRoot(ROUTES, { preloadingStrategy: PreloadAllModules }),
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    PlaylistModule
   ],
   providers: [Oauth2Service, SessionService],
   bootstrap: [AppComponent]
