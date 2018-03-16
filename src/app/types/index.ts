@@ -1,6 +1,5 @@
-export * from './nukebox/auth.interface';
-export * from './nukebox/playlist.interface';
-export * from './nukebox/spotify-config.interface';
+export * from './nukebox/firestore-session.interface';
+export * from './nukebox/firestore-track.interface';
 
 export * from './spotify/album-simplified.interface';
 export * from './spotify/artist.interface';
