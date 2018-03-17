@@ -46,7 +46,7 @@ export class PlaylistService {
       available_markets: [],
       href: '',
       id: '12342d',
-      images: [],
+      images: [this.getDummyImage()],
       name: 'Album title',
       release_date: '',
       release_date_precision: '',
@@ -81,6 +81,14 @@ export class PlaylistService {
       track_number: 2,
       type: '',
       uri: ''
+    };
+  }
+
+  private static getDummyImage() {
+    return {
+      url: 'https://i.scdn.co/image/d61058b4342ec7b6ecd9a2e9e500d6901ae0bf93',
+      height: 640,
+      width: 640
     };
   }
 }

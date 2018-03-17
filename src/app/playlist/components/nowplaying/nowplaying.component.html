@@ -1,7 +1,10 @@
-<div class="nbx-playing-detail">
-    <mat-card-title-group class="fullBleed">
-      <!--<img *ngIf="track?.image" mat-card-md-image [src]="track?.image || ''">-->
-      <mat-card-title>{{track?.name}}</mat-card-title>
-      <mat-card-subtitle>{{track?.artists[0].name|| 'No artist'}}</mat-card-subtitle>
-    </mat-card-title-group>
-</div>
+<mat-card class="nbx-playing-detail">
+  <mat-card-title-group class="fullBleed">
+    <img *ngIf="track?.album.images[0]?.url" mat-card-md-image [src]="track?.album.images[0]?.url || ''">
+    <mat-card-title>{{track?.name}}</mat-card-title>
+    <mat-card-subtitle>{{track?.artists[0].name|| 'No artist'}}</mat-card-subtitle>
+  </mat-card-title-group>
+  <mat-card-actions>
+    <button mat-button>SHARE</button>
+  </mat-card-actions>
+</mat-card>
