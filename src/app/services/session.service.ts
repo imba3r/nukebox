@@ -7,11 +7,11 @@ import { FireStoreSession, FireStoreTrack } from '@app/types';
 @Injectable()
 export class SessionService {
 
-  session$: Observable<FireStoreSession>;
-  sessionDoc: AngularFirestoreDocument<FireStoreSession>;
+  private session$: Observable<FireStoreSession>;
+  private sessionDoc: AngularFirestoreDocument<FireStoreSession>;
 
-  playlistCollection: AngularFirestoreCollection<FireStoreTrack>;
-  playlist$: Observable<FireStoreTrack[]>;
+  private playlistCollection: AngularFirestoreCollection<FireStoreTrack>;
+  private playlist$: Observable<FireStoreTrack[]>;
 
   constructor(private db: AngularFirestore) {
   };
@@ -59,8 +59,8 @@ export class SessionService {
   }
 
   addToPlaylist(track: FireStoreTrack) {
-    /*const track = {...track, dateAdded: new Date().toISOString()} ;
-    this.playlistCollection.doc(track.trackId).set(track);*/
+    this.playlistCollection.doc(track.trackId)
+      .set({...track, dateAdded: new Date().toISOString()});
   }
 
   private createSession(userName: string): FireStoreSession {

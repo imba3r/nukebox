@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     const sessionName = Cookies.get('sessionName');
     const userName = Cookies.get('userName');
     this.sessionService.initializeSession(sessionName, userName);
-    this.sessionService.session$
+    this.sessionService.getSession()
       .subscribe(session => {
         console.log('Session restored!');
         if (!session.spotifyKey) {
