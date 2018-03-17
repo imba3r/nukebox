@@ -1,12 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
-import {debounceTime, distinctUntilChanged, startWith, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs/observable/of';
-import {Album, Artist, Track} from '@app/types';
-import {SearchService} from '@app/search/search.service';
-import {PlaylistComponent} from '@app/playlist/components/playlist.component';
-import {PlaylistService} from '@app/playlist/services/playlist.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { concatMap, debounceTime, distinctUntilChanged, startWith, tap } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
+import { Track } from '@app/types';
+import { SearchService } from '@app/search/search.service';
+import { PlaylistService } from '@app/playlist/services/playlist.service';
 
 @Component({
   selector: 'nbx-search-autocomplete',
@@ -40,15 +39,9 @@ export class SearchAutocompleteComponent implements OnInit {
         startWith(null),
         debounceTime(200),
         distinctUntilChanged(),
-        switchMap(val => {
-          console.log(val);
-          return val ? this.filter(val) : of();
-        })
+        tap(v => console.log(v)),
+        concatMap(val => val ? this.searchService.search(val) : of()),
       );
-  }
-
-  filter(val: string): Observable<Track[]> {
-    return this.searchService.search(val);
   }
 
   addTitleToPlaylist() {

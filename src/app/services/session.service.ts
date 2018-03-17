@@ -8,32 +8,22 @@ import { isNullOrUndefined } from 'util';
 @Injectable()
 export class SessionService {
 
-  private session$: Observable<FireStoreSession>;
   private sessionDoc: AngularFirestoreDocument<FireStoreSession>;
-
-  trackQueueCollection: AngularFirestoreCollection<FireStoreTrack>;
-  trackQueue$: Observable<FireStoreTrack[]>;
-
+  private trackQueueCollection: AngularFirestoreCollection<FireStoreTrack>;
   private playlistCollection: AngularFirestoreCollection<FireStoreTrack>;
-  private playlist$: Observable<FireStoreTrack[]>;
 
   constructor(private db: AngularFirestore) {
   };
 
   initializeSession(userName: string, sessionName: string) {
     this.sessionDoc = this.db.collection('sessions').doc(sessionName);
-    this.session$ = this.sessionDoc.valueChanges();
-
     this.playlistCollection = this.sessionDoc.collection<FireStoreTrack>('playlist');
-    this.playlist$ = this.playlistCollection.valueChanges();
-
     this.trackQueueCollection = this.sessionDoc.collection<FireStoreTrack>('trackQueue');
-    this.trackQueue$ = this.trackQueueCollection.valueChanges();
 
     this.sessionDoc.snapshotChanges().pipe(
       tap(v => console.log(v)),
       map(snapshot => snapshot.payload.exists),
-      withLatestFrom(this.session$),
+      withLatestFrom(this.sessionDoc.valueChanges()),
       take(1),
       map(([exists, session]) => {
         if (!exists) {
@@ -46,11 +36,11 @@ export class SessionService {
       })
     ).subscribe();
 
-    return this.session$.pipe(filter(session => !isNullOrUndefined(session)));
+    return this.sessionDoc.valueChanges().pipe(filter(session => !isNullOrUndefined(session)));
   }
 
   getSpotifyKey(): Observable<string> {
-    return this.session$.pipe(map(session => {
+    return this.sessionDoc.valueChanges().pipe(map(session => {
       if (session) {
         return session.spotifyKey;
       }
@@ -63,7 +53,7 @@ export class SessionService {
   }
 
   getMasterUser(): Observable<string> {
-    return this.session$.pipe(map(session => {
+    return this.sessionDoc.valueChanges().pipe(map(session => {
       if (session) {
         return session.masterUser;
       }
@@ -72,7 +62,7 @@ export class SessionService {
   }
 
   getUsers(): Observable<string[]> {
-    return this.session$.pipe(map(session => {
+    return this.sessionDoc.valueChanges().pipe(map(session => {
       if (session) {
         return session.users;
       }
@@ -81,11 +71,11 @@ export class SessionService {
   }
 
   getSession(): Observable<FireStoreSession> {
-    return this.session$;
+    return this.sessionDoc.valueChanges();
   }
 
   getPlaylist(): Observable<FireStoreTrack[]> {
-    return this.playlist$;
+    return this.playlistCollection.valueChanges();
   }
 
   /**
@@ -108,7 +98,7 @@ export class SessionService {
   }
 
   getTrackQueue(): Observable<FireStoreTrack[]> {
-    return this.trackQueue$;
+    return this.trackQueueCollection.valueChanges();
   }
 
   /**
