@@ -19,10 +19,10 @@ export class PlaylistComponent implements OnInit {
   users$: Observable<Array<string>>;
   masterUser$: Observable<string>;
 
-  constructor(private sessionService: SessionService) {
+  constructor(private sessionService: SessionService, private playlistService: PlaylistService) {
     this.currentTrack$ = PlaylistService.getCurrentTrack();
 
-    this.queue$ = PlaylistService.getQueue(this.sessionService.getPlaylist());
+    this.queue$ = this.playlistService.getQueue(this.sessionService.getPlaylist());
 
     this.users$ = sessionService.getUsers();
 
@@ -32,19 +32,5 @@ export class PlaylistComponent implements OnInit {
   ngOnInit() {
   }
 
-  getQueue() {
-    let firebasePlaylist$: Observable<FireStoreTrack[]>;
-
-    firebasePlaylist$ = of([{
-      trackId: '1',
-      dateAdded: 'today'
-    }, {
-      trackId: '2',
-      dateAdded: 'today'
-    }]);
-
-    // firebasePlaylist$.subscribe(fireStoreTrack => this.getSpotifyTrack(fireStoreTrack.trackId));
-
-  }
 
 }

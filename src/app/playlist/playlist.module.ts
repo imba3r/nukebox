@@ -13,6 +13,7 @@ import { AddsongComponent } from './components/addsong/addsong.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchModule} from '@app/search/search.module';
 import { UsersComponent } from './components/users/users.component';
+import {PlaylistService} from "@app/playlist/services/playlist.service";
 
 @NgModule({
   imports: [
@@ -40,10 +41,13 @@ import { UsersComponent } from './components/users/users.component';
     QueueComponent,
     HeaderComponent,
     AddsongComponent,
-    UsersComponent,
+    UsersComponent
   ],
   exports: [
     PlaylistComponent
+  ],
+  providers: [
+    PlaylistService
   ]
 })
 export class PlaylistModule { }
