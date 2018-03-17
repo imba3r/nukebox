@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { concatMap, debounceTime, distinctUntilChanged, startWith, tap } from 'rxjs/operators';
+import { concatMap, debounceTime, distinctUntilChanged, startWith, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { Track } from '@app/types';
 import { SearchService } from '@app/search/search.service';
@@ -41,7 +41,7 @@ export class SearchAutocompleteComponent implements OnInit {
         debounceTime(200),
         distinctUntilChanged(),
         tap(v => console.log(v)),
-        concatMap(val => val ? this.searchService.search(val) : of()),
+        switchMap(val => val ? this.searchService.search(val) : of()),
       );
   }
 
