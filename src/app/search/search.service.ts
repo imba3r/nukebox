@@ -1,10 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import {Track} from '@app/types';
-import {SessionService} from '@app/services/session.service';
-import {concatMap, map, mergeMap, tap} from 'rxjs/operators';
-import {flatMap} from 'tslint/lib/utils';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Track } from '@app/types';
+import { SessionService } from '@app/services/session.service';
+import { concatMap, map } from 'rxjs/operators';
 
 interface SearchResult {
   tracks: {
