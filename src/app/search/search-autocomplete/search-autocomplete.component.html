@@ -1,19 +1,6 @@
-<div *ngIf="filterCtrl.disabled" style="display: flex; flex-direction: column; width: 50%;">
-  <h4>Select additional filters</h4>
-  <mat-form-field>
-    <input type="text" placeholder="Album" aria-label="Number" matInput [formControl]="album">
-  </mat-form-field>
-  <mat-form-field>
-    <input type="text" placeholder="Artist" aria-label="Number" matInput [formControl]="artist">
-  </mat-form-field>
-  <mat-form-field>
-    <input type="text" placeholder="Playlist" aria-label="Number" matInput [formControl]="playlist">
-  </mat-form-field>
-</div>
-
 <div>
   <h4>Search for titles</h4>
-  <mat-form-field style="width: 80%;">
+  <mat-form-field style="width: 70%;">
     <input type="text" placeholder="Search" aria-label="Number" matInput [formControl]="search" [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngFor="let title of titles | async" [value]="title.name">
@@ -27,10 +14,24 @@
     </mat-autocomplete>
   </mat-form-field>
 
-  <mat-slide-toggle style="margin-left: 10px;"
+  <mat-slide-toggle style="margin-left: 15px;"
     [checked]="filterCtrl.disabled"
     (change)="filterCtrl.disabled ? filterCtrl.enable() : filterCtrl.disable()">
     Filter
   </mat-slide-toggle>
+
+  <button mat-raised-button (click)="addTitleToPlaylist()" style="float: right; margin-top: 10px;">Add</button>
 </div>
 
+<div *ngIf="filterCtrl.disabled" style="display: flex; flex-direction: column; width: 50%;">
+  <h4>Select additional filters</h4>
+  <mat-form-field>
+    <input type="text" placeholder="Album" aria-label="Number" matInput [formControl]="album">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" placeholder="Artist" aria-label="Number" matInput [formControl]="artist">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" placeholder="Playlist" aria-label="Number" matInput [formControl]="playlist">
+  </mat-form-field>
+</div>

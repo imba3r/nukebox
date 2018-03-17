@@ -32,6 +32,7 @@ export class SearchService {
   }
 
   private getHeader(token: string) {
+    token = 'M7MK35CuNfHVNnJEpwxNpa43QD_4tStV&VER=8&RID=rpc&SID=ROtu-daJmz93a-jMRLSgzg&CI=0&AID=0&TYPE=xmlhttp&zx=gcvr3wn40yeu&t';
     let headers = new HttpHeaders().set('Content-Type', 'application/json')
       .set('authorization', 'Bearer ' + token);
     return headers;
