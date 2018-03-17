@@ -11,6 +11,9 @@ export class SessionService {
   private session$: Observable<FireStoreSession>;
   private sessionDoc: AngularFirestoreDocument<FireStoreSession>;
 
+  trackQueueCollection: AngularFirestoreCollection<FireStoreTrack>;
+  trackQueue$: Observable<FireStoreTrack[]>;
+
   private playlistCollection: AngularFirestoreCollection<FireStoreTrack>;
   private playlist$: Observable<FireStoreTrack[]>;
 
@@ -23,6 +26,9 @@ export class SessionService {
 
     this.playlistCollection = this.sessionDoc.collection<FireStoreTrack>('playlist');
     this.playlist$ = this.playlistCollection.valueChanges();
+
+    this.trackQueueCollection = this.sessionDoc.collection<FireStoreTrack>('trackQueue');
+    this.trackQueue$ = this.trackQueueCollection.valueChanges();
 
     this.sessionDoc.snapshotChanges().pipe(
       tap(v => console.log(v)),
@@ -44,7 +50,12 @@ export class SessionService {
   }
 
   getSpotifyKey(): Observable<string> {
-    return this.session$.map(session => session && session.spotifyKey || '');
+    return this.session$.map(session => {
+      if (session) {
+        return session.spotifyKey;
+      }
+      return '';
+    });
   }
 
   setSpotifyKey(key: string) {
@@ -52,11 +63,21 @@ export class SessionService {
   }
 
   getMasterUser(): Observable<string> {
-    return this.session$.map(session => session.masterUser);
+    return this.session$.map(session => {
+      if (session) {
+        return session.masterUser;
+      }
+      return '';
+    });
   }
 
   getUsers(): Observable<string[]> {
-    return this.session$.map(session => session.users);
+    return this.session$.map(session => {
+      if (session) {
+        return session.users;
+      }
+      return [];
+    });
   }
 
   getSession(): Observable<FireStoreSession> {
@@ -67,9 +88,23 @@ export class SessionService {
     return this.playlist$;
   }
 
+  /**
+   * Only to be called by the master device!!
+   */
   addToPlaylist(track: FireStoreTrack) {
-    this.playlistCollection.doc(track.trackId)
-      .set({...track, dateAdded: new Date().toISOString()});
+    this.playlistCollection.doc(track.trackId).set(track);
+  }
+
+  getTrackQueue(): Observable<FireStoreTrack[]> {
+    return this.trackQueue$;
+  }
+
+  /**
+   * Clients may add tracks here, the master will collect them and call addToPlaylist on their behalf.
+   */
+  addToTrackQueue(track: FireStoreTrack) {
+    const queuedTrack = {...track, dateAdded: new Date().toISOString()};
+    this.trackQueueCollection.doc(track.trackId).set(queuedTrack);
   }
 
   private createSession(userName: string): FireStoreSession {
