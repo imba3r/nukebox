@@ -1,0 +1,7 @@
+<mat-card style="margin-top: 10px;">
+  <h4>Users</h4>
+  <mat-chip-list>
+    <mat-chip style="background-color: #ff4081;">{{masterUser}}</mat-chip>
+    <mat-chip *ngFor="let user of users">{{user}}</mat-chip>
+  </mat-chip-list>
+</mat-card>
