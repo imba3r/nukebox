@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
+import {distinctUntilChanged, filter, first, map, take, tap, withLatestFrom} from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { FireStoreSession, FireStoreTrack } from '@app/types';
 import { isNullOrUndefined } from 'util';
@@ -39,12 +39,25 @@ export class SessionService {
   }
 
   getSpotifyKey(): Observable<string> {
-    return this.sessionDoc.valueChanges().pipe(map(session => {
+    return this.sessionDoc.valueChanges().pipe(first(), map(session => {
       if (session) {
         return session.spotifyKey;
       }
       return '';
     }));
+  }
+
+  getSpotifyPlaylistId(): Observable<string> {
+    return this.sessionDoc.valueChanges().pipe(first(), map(session => {
+      if (session) {
+        return session.spotifyPlaylistId;
+      }
+      return '';
+    }));
+  }
+
+  setSpotifyPlaylistId(playlistId: string) {
+    this.sessionDoc.update({spotifyPlaylistId: playlistId});
   }
 
   setSpotifyKey(key: string) {
@@ -151,6 +164,7 @@ export class SessionService {
     return {
       masterUser: userName,
       spotifyKey: 'not-set-yet',
+      spotifyPlaylistId: '',
       users: [userName],
     };
   }
