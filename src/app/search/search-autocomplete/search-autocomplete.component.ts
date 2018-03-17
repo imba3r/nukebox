@@ -53,7 +53,7 @@ export class SearchAutocompleteComponent implements OnInit {
     };
     this.sessionService.addToTrackQueue(firebaseTrack);
     this.snotifyService.success('Title successfully added to the playlist.', {
-      timeout: 1000,
+      timeout: 3000,
       showProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true
