@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Oauth2Service} from '@app/oauth2.service';
 import {Observable} from 'rxjs/Observable';
 import {Track} from '@app/types';
+import {SessionService} from '@app/services/session.service';
+import {concatMap, map, mergeMap, tap} from 'rxjs/operators';
+import {flatMap} from 'tslint/lib/utils';
 
 interface SearchResult {
   tracks: {
@@ -15,24 +17,19 @@ export class SearchService {
 
   private API_URL = 'https://api.spotify.com/v1';
 
-  constructor(private http: HttpClient, private oAuth: Oauth2Service) {
+  constructor(private http: HttpClient, private sessionService: SessionService) {
   }
 
   public search(title: string): Observable<Track[]> {
-
-    const token = this.oAuth.currentToken;
-
-    if (token) {
-      const headers = this.getHeader(token);
-      return this.http.get<SearchResult>(`${this.API_URL}/search?q=`+ title + `&type=track`, { headers: headers })
-        .map((result) => result.tracks.items);
-    } else {
-      return null;
-    }
+    return this.sessionService.getSpotifyKey().pipe(
+      map(token => this.getHeader(token)),
+      concatMap((header) => this.http.get<SearchResult>(`${this.API_URL}/search?q=${title}&type=track`, {headers: header})),
+      map(result => result.tracks.items)
+    );
   }
 
   private getHeader(token: string) {
-    token = 'M7MK35CuNfHVNnJEpwxNpa43QD_4tStV&VER=8&RID=rpc&SID=ROtu-daJmz93a-jMRLSgzg&CI=0&AID=0&TYPE=xmlhttp&zx=gcvr3wn40yeu&t';
+    console.log(token);
     let headers = new HttpHeaders().set('Content-Type', 'application/json')
       .set('authorization', 'Bearer ' + token);
     return headers;

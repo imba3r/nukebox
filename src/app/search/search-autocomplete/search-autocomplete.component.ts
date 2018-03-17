@@ -41,6 +41,7 @@ export class SearchAutocompleteComponent implements OnInit {
         debounceTime(200),
         distinctUntilChanged(),
         switchMap(val => {
+          console.log(val);
           return val ? this.filter(val) : of();
         })
       );

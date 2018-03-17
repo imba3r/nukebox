@@ -51,7 +51,9 @@ export class SessionService {
 
   getSpotifyKey(): Observable<string> {
     return this.session$.map(session => {
+      console.log('Test');
       if (session) {
+
         return session.spotifyKey;
       }
       return '';
