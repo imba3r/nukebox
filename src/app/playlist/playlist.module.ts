@@ -12,6 +12,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { AddsongComponent } from './components/addsong/addsong.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchModule} from '@app/search/search.module';
+import { UsersComponent } from './components/users/users.component';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import {SearchModule} from '@app/search/search.module';
     QueueComponent,
     HeaderComponent,
     AddsongComponent,
+    UsersComponent,
   ],
   exports: [
     PlaylistComponent
