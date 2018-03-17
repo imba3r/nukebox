@@ -11,6 +11,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SearchService } from '@app/search/search.service';
 import { HttpClientModule } from '@angular/common/http';
+import {SnotifyService} from 'ng-snotify';
+import {ToastDefaults} from 'ng-snotify';
+import {SnotifyModule} from 'ng-snotify';
 
 @NgModule({
   imports: [
@@ -22,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatAutocompleteModule,
     MatInputModule,
     BrowserAnimationsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    SnotifyModule
   ],
   declarations: [
     SearchAutocompleteComponent,
@@ -30,6 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     SearchService,
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
+    SnotifyService
   ],
   exports: [
     SearchComponent

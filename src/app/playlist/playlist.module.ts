@@ -24,6 +24,7 @@ import {AddsongComponent} from './components/addsong/addsong.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchModule} from '@app/search/search.module';
 import {FormsModule} from '@angular/forms';
+import { UsersComponent } from './components/users/users.component';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import {FormsModule} from '@angular/forms';
     QueueComponent,
     HeaderComponent,
     AddsongComponent,
+    UsersComponent,
   ],
   exports: [
     PlaylistComponent
