@@ -1,6 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Device} from '@app/playlist/types/device';
-import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
 import * as Cookies from 'es-cookie';
 import {SESSION_COOKIE_NAME, USERNAME_COOKIE_NAME} from '@app/app.component';
@@ -13,7 +11,8 @@ import {SESSION_COOKIE_NAME, USERNAME_COOKIE_NAME} from '@app/app.component';
 export class HeaderComponent implements OnInit {
   @Input() masterUser: string;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
   }
