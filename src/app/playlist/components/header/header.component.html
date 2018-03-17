@@ -2,9 +2,7 @@
   <div fxLayout fxLayoutAlign="space-between center" fxFlex>
     {{device.name}}
     <div class="right">
-      <a mat-button title="Some action" routerLink="/">
-        Some action
-      </a>
+      <button mat-raised-button color="warn" (click)="logout()">Leave</button>
     </div>
   </div>
 </mat-toolbar>
