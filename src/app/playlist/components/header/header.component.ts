@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  @Input() device: Device;
+  @Input() masterUser: string;
 
   constructor() { }
 

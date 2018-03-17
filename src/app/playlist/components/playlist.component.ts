@@ -22,8 +22,6 @@ export class PlaylistComponent implements OnInit {
   constructor() {
     this.currentTrack$ = PlaylistService.getCurrentTrack();
 
-    this.device$ = PlaylistService.getDevice();
-
     this.queue$ = PlaylistService.getQueue();
 
     this.users$ = of(['Florian', 'Chris']);
