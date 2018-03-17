@@ -5,6 +5,8 @@ import {debounceTime, distinctUntilChanged, startWith, switchMap} from 'rxjs/ope
 import {of} from 'rxjs/observable/of';
 import {Album, Artist, Track} from '@app/types';
 import {SearchService} from '@app/search/search.service';
+import {PlaylistComponent} from '@app/playlist/components/playlist.component';
+import {PlaylistService} from '@app/playlist/services/playlist.service';
 
 @Component({
   selector: 'nbx-search-autocomplete',
@@ -46,5 +48,10 @@ export class SearchAutocompleteComponent implements OnInit {
 
   filter(val: string): Observable<Track[]> {
     return this.searchService.search(val);
+  }
+
+  addTitleToPlaylist() {
+    console.log(this.search);
+    PlaylistService.addSong('');
   }
 }

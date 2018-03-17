@@ -11,6 +11,7 @@ import { HeaderComponent } from './components/header/header.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { AddsongComponent } from './components/addsong/addsong.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SearchModule} from '@app/search/search.module';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatToolbarModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
-    MatChipsModule
+    MatChipsModule,
+    SearchModule
   ],
   declarations: [
     PlaylistComponent,
