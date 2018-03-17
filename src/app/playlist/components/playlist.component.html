@@ -18,12 +18,12 @@
 <!--</mat-list>-->
 
 <nbx-header [device]="device$ | async"></nbx-header>
-<mat-card style="width: 50%; margin: auto">
+<mat-card style="width: 60%; margin: auto">
   <nbx-nowplaying [track]="currentTrack$ | async"></nbx-nowplaying>
 <nbx-queue [queue]="queue$ | async"></nbx-queue>
 </mat-card>
 
-<mat-card style="width: 50%; margin: auto; margin-top: 10px;">
+<mat-card style="width: 60%; margin: auto; margin-top: 10px;">
   <nbx-addsong></nbx-addsong>
 </mat-card>
 
