@@ -1,21 +1,34 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {PlaylistComponent} from '@app/playlist/components/playlist.component';
-import { NowplayingComponent } from './components/nowplaying/nowplaying.component';
-import { QueueComponent } from './components/queue/queue.component';
+import {NowplayingComponent} from './components/nowplaying/nowplaying.component';
+import {QueueComponent} from './components/queue/queue.component';
 import {
-  MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule,
-  MatListModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatTabsModule, MatToolbarModule, MatChipsModule
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatTabsModule,
+  MatToolbarModule
 } from '@angular/material';
-import { HeaderComponent } from './components/header/header.component';
+import {HeaderComponent} from './components/header/header.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import { AddsongComponent } from './components/addsong/addsong.component';
+import {AddsongComponent} from './components/addsong/addsong.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchModule} from '@app/search/search.module';
+import {FormsModule} from '@angular/forms';
 import { UsersComponent } from './components/users/users.component';
 
 @NgModule({
   imports: [
+    FormsModule,
     CommonModule,
     MatButtonModule,
     MatCardModule,
