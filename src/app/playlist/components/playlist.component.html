@@ -17,7 +17,10 @@
   <!--</a>-->
 <!--</mat-list>-->
 
-<nbx-header [device]="device"></nbx-header>
-<nbx-nowplaying [song]="currentsong"></nbx-nowplaying>
-<nbx-queue [queue]="queue"></nbx-queue>
+<nbx-header [device]="device$ | async"></nbx-header>
+<mat-card style="width: 50%; margin: auto">
+  <nbx-nowplaying [track]="currentTrack$ | async"></nbx-nowplaying>
+<nbx-queue [queue]="queue$ | async"></nbx-queue>
 <nbx-addsong></nbx-addsong>
+</mat-card>
+

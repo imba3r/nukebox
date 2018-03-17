@@ -1,9 +1,7 @@
 <div class="nbx-playing-detail">
-  <mat-card>
     <mat-card-title-group class="fullBleed">
-      <img *ngIf="song?.image" mat-card-md-image [src]="song?.image || ''">
-      <mat-card-title>{{song?.title}}</mat-card-title>
-      <mat-card-subtitle>{{song?.artist || 'No artist'}}</mat-card-subtitle>
+      <!--<img *ngIf="track?.image" mat-card-md-image [src]="track?.image || ''">-->
+      <mat-card-title>{{track?.name}}</mat-card-title>
+      <mat-card-subtitle>{{track?.artists[0].name|| 'No artist'}}</mat-card-subtitle>
     </mat-card-title-group>
-  </mat-card>
 </div>

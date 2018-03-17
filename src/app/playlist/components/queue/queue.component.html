@@ -1,17 +1,27 @@
-<mat-list>
-  <mat-list-item *ngFor="let song of queue">
-    <div fxLayout fxLayoutAlign="space-between center" fxFlex>
-      {{song.title}}
+  <mat-list>
+    <mat-list-item *ngFor="let track of queue">
+      <div fxLayout fxLayoutAlign="space-between center" fxFlex>
+<div fxFlex="10%">
+        <mat-chip-list class="mat-chip-list-stacked">
+          <mat-chip>
+            5
+          </mat-chip>
+        </mat-chip-list>
+</div>
+<div>
+        {{track.name}}
+</div>
+        <div class="button-row right" fxFlex="20%">
 
-      <div class="button-row right">
-        <button mat-icon-button>
-          <mat-icon aria-label="Up">thumb_up</mat-icon>
-        </button>
-        <button mat-icon-button color="primary">
-          <mat-icon aria-label="Down">thumb_down</mat-icon>
-        </button>
-      </div>
+          <button mat-icon-button (click)="voteUp(track.id)">
+            <mat-icon aria-label="Up">thumb_up</mat-icon>
+          </button>
+          <button mat-icon-button (click)="voteDown(track.id)">
+            <mat-icon aria-label="Down">thumb_down</mat-icon>
+          </button>
+        </div>
 
     </div>
-  </mat-list-item>
-</mat-list>
+
+    </mat-list-item>
+  </mat-list>

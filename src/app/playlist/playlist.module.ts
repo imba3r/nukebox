@@ -5,7 +5,7 @@ import { NowplayingComponent } from './components/nowplaying/nowplaying.componen
 import { QueueComponent } from './components/queue/queue.component';
 import {
   MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule,
-  MatListModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatTabsModule, MatToolbarModule
+  MatListModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatTabsModule, MatToolbarModule, MatChipsModule
 } from '@angular/material';
 import { HeaderComponent } from './components/header/header.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -28,7 +28,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatTabsModule,
     MatToolbarModule,
     FlexLayoutModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatChipsModule
   ],
   declarations: [
     PlaylistComponent,

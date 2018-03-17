@@ -1,9 +1,12 @@
-<form class="example-form">
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="SongId">
-  </mat-form-field>
-</form>
+  <mat-card-title>Add</mat-card-title>
+  <mat-card-content>
+    <div fxLayout fxLayoutAlign="space-between center" fxFlex>
+      <mat-form-field>
+        <input matInput placeholder="trackId">
+      </mat-form-field>
 
-<div class="button-row right">
-  <button mat-raised-button>Add</button>
-</div>
+      <div class="button-row right">
+        <button mat-raised-button (click)="addSong()">Add</button>
+      </div>
+    </div>
+  </mat-card-content>
