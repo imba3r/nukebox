@@ -23,17 +23,11 @@ export class Oauth2Service {
   constructor(private router: Router) { }
 
   public requestAuthorization() {
-    const extras: NavigationExtras = {
-      queryParams: {
-        'client_id': Oauth2Service.CLIENT_ID,
-        'response_type': Oauth2Service.RESPONSE_TYPE,
-        'redirect_uri': Oauth2Service.redirect_uri
-      }
-    };
     const clientId = Oauth2Service.CLIENT_ID;
     const responseType = Oauth2Service.RESPONSE_TYPE;
     const redirect_uri = encodeURIComponent(Oauth2Service.redirect_uri);
-    window.location.href = `${Oauth2Service.AUTH_URL}?client_id=${clientId}&response_type=${responseType}&redirect_uri=${redirect_uri}`;
+    const scope = encodeURIComponent('playlist-modify-private playlist-modify-public');
+    window.location.href = `${Oauth2Service.AUTH_URL}?client_id=${clientId}&response_type=${responseType}&redirect_uri=${redirect_uri}&scope=${scope}`;
   }
 
   public tokenChanges(): Observable<string> {

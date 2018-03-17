@@ -1,0 +1,17 @@
+<div class="flex-container">
+  <mat-card style="width: 300px">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Your Name" [(ngModel)]="userName">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Nuke-Box" [(ngModel)]="sessionName">
+    </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" (click)="onLogInSession()">Continue</button>
+    </div>
+  </mat-card>
+</div>
+<div>
+  Spy: {{userName}}: {{sessionName}}
+</div>
+<a href="/master/login">Generate Token</a>
