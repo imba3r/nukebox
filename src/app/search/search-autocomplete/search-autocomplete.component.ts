@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { concatMap, debounceTime, distinctUntilChanged, startWith, switchMap, tap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-import { Track } from '@app/types';
-import { SearchService } from '@app/search/search.service';
-import { PlaylistService } from '@app/playlist/services/playlist.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs/Observable';
+import {debounceTime, distinctUntilChanged, startWith, switchMap, tap} from 'rxjs/operators';
+import {of} from 'rxjs/observable/of';
+import {Track} from '@app/types';
+import {SearchService} from '@app/search/search.service';
+import {SnotifyService} from 'ng-snotify';
+import {SessionService} from '@app/services/session.service';
 
 @Component({
   selector: 'nbx-search-autocomplete',
@@ -22,7 +23,8 @@ export class SearchAutocompleteComponent implements OnInit {
   titles: Observable<Track[]>;
   track: Track;
 
-  constructor(private searchService: SearchService) {
+  constructor(private searchService: SearchService, private snotifyService: SnotifyService,
+              private sessionService: SessionService) {
   }
 
   ngOnInit() {
@@ -46,8 +48,17 @@ export class SearchAutocompleteComponent implements OnInit {
   }
 
   addTitleToPlaylist() {
-    console.log(this.track);
-    PlaylistService.addSong(this.track.id);
+    const firebaseTrack = {
+      trackId: this.track.uri
+    };
+    this.sessionService.addToTrackQueue(firebaseTrack);
+    this.snotifyService.success('Title successfully added to the playlist.', {
+      timeout: 1000,
+      showProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true
+    });
+    this.search.setValue('')
   }
 
   onSelect(item: Track) {
