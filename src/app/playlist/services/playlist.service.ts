@@ -3,6 +3,9 @@ import {of} from 'rxjs/observable/of';
 import {Artist} from '@app/types/spotify/artist.interface';
 import {Album} from '@app/types/spotify/album-simplified.interface';
 import {Image} from '@app/types/spotify/image.interface';
+import {FireStoreTrack, Track} from '@app/types';
+import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class PlaylistService {
@@ -25,7 +28,8 @@ export class PlaylistService {
     console.log('addSong ' + trackId);
   }
 
-  static getQueue() {
+  static getQueue(fireStoreTracks: Observable<FireStoreTrack[]>): Observable<Array<Track>> {
+    // let tracks$ = fireStoreTracks.pipe(map(this.mapSpotifyTracks));
     return of([this.getDummyTrack(), this.getDummyTrack()]);
   }
 
@@ -90,5 +94,15 @@ export class PlaylistService {
       height: 640,
       width: 640
     };
+  }
+
+  private static mapSpotifyTrack(fireStoreTrack: FireStoreTrack): Track {
+    const track: Track = PlaylistService.getDummyTrack();
+    track.id = fireStoreTrack.trackId;
+    return track;
+  }
+
+  private mapSpotifyTracks(fireStoreTracks: Array<FireStoreTrack>): Array<Track> {
+    return fireStoreTracks.map(PlaylistService.mapSpotifyTrack);
   }
 }
