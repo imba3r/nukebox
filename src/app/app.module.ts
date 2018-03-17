@@ -14,9 +14,6 @@ import {SessionService} from './services/session.service';
 import {ROUTES} from '@app/routes';
 import {ClientComponent} from './client/client.component';
 import {PlaylistModule} from '@app/playlist/playlist.module';
-
-import {ClientComponent} from './client/client.component';
-import {PlaylistModule} from '@app/playlist/playlist.module';
 import {SearchModule} from './search/search.module';
 
 @NgModule({
