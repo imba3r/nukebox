@@ -4,7 +4,8 @@ import * as Cookies from 'es-cookie';
 import { SessionService } from '@app/services/session.service';
 
 export const INITIAL_KEY = 'not-set-yet';
-
+export const SESSION_COOKIE_NAME = 'sessionName';
+export const USERNAME_COOKIE_NAME = 'userName';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
