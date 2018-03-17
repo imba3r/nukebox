@@ -3,7 +3,7 @@ import {Oauth2Service} from '@app/oauth2.service';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {SpotifyUser} from '@app/master-client/types/SpotifyUser';
-import {filter, map, switchMap, tap} from 'rxjs/operators';
+import {concatMap, filter, map, switchMap, tap} from 'rxjs/operators';
 import {SpotifyPlaylist} from '@app/types/spotify/spotify-playlist';
 import {SessionService} from '@app/services/session.service';
 import {isNullOrUndefined} from 'util';
@@ -41,27 +41,33 @@ export class MasterPlaylistService {
 
   }
 
+
+  public initMessageQueue = () => {
+    console.info('Starting Messaging Queue service for master client');
+    this.resolveUser()
+      .subscribe(user => {
+        this.spotifyUser = user;
+        this.sessionService.getTrackQueue().pipe(
+          map((tracks: Array<FireStoreTrack>) => {
+            if (tracks.length > 0) {
+              return tracks[0];
+            } else {
+              return null;
+            }
+          }),
+          tap((track) => console.log('Retrieved firebase track from queue', track)),
+          filter((fireStoreTrack: FireStoreTrack) => !isNullOrUndefined(fireStoreTrack)),
+          tap(fireBaseTrack => this.addTrackToPlaylist(fireBaseTrack.trackId)),
+          tap(() => console.log('Track added')),
+          tap(fireBaseTrack => this.sessionService.removeQueuedTrack(fireBaseTrack)),
+          tap(() => console.log('Removed from Queue'))
+        ).subscribe();
+      });
+  }
   /**
    * Creates the NBX-Playlist
    */
   public initService = (): Observable<void> => {
-    this.sessionService.getTrackQueue().pipe(
-      map((tracks: Array<FireStoreTrack>) => {
-        if (tracks.length > 0) {
-          return tracks[0];
-        } else {
-          return null;
-        }
-      }),
-      tap(console.log),
-      filter((fireStoreTrack: FireStoreTrack) => isNullOrUndefined(fireStoreTrack)),
-      tap(fireBaseTrack => this.addTrackToPlaylist(fireBaseTrack.trackId)),
-      tap(() => console.log('Track added')),
-      tap(fireBaseTrack => this.sessionService.removeQueuedTrack(fireBaseTrack)),
-      tap(() => console.log('Removed from Queue'))
-    ).subscribe();
-
-
     return this.resolveUser()
       .pipe(
         tap(x => this.spotifyUser = x),
@@ -78,28 +84,35 @@ export class MasterPlaylistService {
 
   public addTrackToPlaylist = (trackId: string): Observable<string> => {
     const uri = `'https://api.spotify.com/v1/users/${this.spotifyUser.id}/playlists/${this.ngxPlaylist.id}/tracks'`;
-    return this.http.post<void>(this.addToQueueUri, this.addTrackRequest(trackId), this.authHeader())
-      .pipe(map(() => trackId));
+    return this.authHeader().pipe(concatMap(options => {
+      return this.http.post<void>(uri, this.addTrackRequest(trackId), options)
+        .pipe(map(() => trackId));
+    }));
   }
 
   public removeTrackFromPlaylist = (trackId: string): Observable<void> => {
     const uri = `'https://api.spotify.com/v1/users/${this.spotifyUser.id}/playlists/${this.ngxPlaylist.id}/tracks'`;
-    const options = {
-      headers: {
-        'Authorization': 'Bearer ' + this.oAuth2Service.currentToken
-      },
-      body: this.removeTrackRequest([trackId])
-    };
-    return this.http.delete<void>(uri, options);
+    return this.authHeader().pipe(concatMap(options => {
+      const finalOptions = Object.assign(options, {
+        body: this.removeTrackRequest([trackId])
+      });
+      return this.http.delete<void>(uri, finalOptions).pipe(map(() => null));
+    }));
   }
 
   private resolveUser = () => {
-    return this.http.get<SpotifyUser>(this.currentUserUrl, this.authHeader());
+    return this.authHeader().pipe(concatMap(options => {
+      return this.http.get<SpotifyUser>(this.currentUserUrl, options as any);
+    }));
   }
 
   private createNGXPlaylist = (userId: string) => {
     const uri = `https://api.spotify.com/v1/users/${userId}/playlists`;
-    return this.http.post<SpotifyPlaylist>(uri, this.createNGXPlaylistRequest(), this.authHeader());
+    return this.authHeader().pipe(
+      concatMap(options => {
+        return this.http.post<SpotifyPlaylist>(uri, this.createNGXPlaylistRequest(), options);
+      })
+    );
   }
 
   private addTrackRequest(trackId: string): AddToPlaylistRequest {
@@ -108,13 +121,13 @@ export class MasterPlaylistService {
     };
   }
 
-  private authHeader() {
-    const headers = new HttpHeaders({'Authorization': `Bearer ${this.oAuth2Service.currentToken}`});
-    console.log(headers);
-    console.log(this.oAuth2Service.currentToken);
-    return {
-      headers: headers
-    };
+  private authHeader(): Observable<any> {
+    return this.sessionService.getSpotifyKey()
+      .pipe(map(key => {
+        return {
+          headers: new HttpHeaders({'Authorization': `Bearer ${key}`})
+        };
+      }));
   }
 
   private createNGXPlaylistRequest(): CreatePlaylistRequest {

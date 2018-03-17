@@ -18,9 +18,9 @@ export class SessionService {
   private playlist$: Observable<FireStoreTrack[]>;
 
   constructor(private db: AngularFirestore) {
-  };
+  }
 
-  initializeSession(userName: string, sessionName: string) {
+  initializeSession(userName: string, sessionName: string): Observable<FireStoreSession> {
     this.sessionDoc = this.db.collection('sessions').doc(sessionName);
     this.session$ = this.sessionDoc.valueChanges();
 
@@ -38,11 +38,10 @@ export class SessionService {
       map(([exists, session]) => {
         if (!exists) {
           this.sessionDoc.set(this.createSession(userName));
-        }
-        else if (!session.users.find(name => name === userName)) {
+        } else if (!session.users.find(name => name === userName)) {
           this.sessionDoc.update({users: [...session.users, userName]});
         }
-        return session
+        return session;
       })
     ).subscribe();
 
@@ -100,9 +99,8 @@ export class SessionService {
         tap(snapshot => {
           const exists = snapshot.payload.exists;
           if (exists) {
-            console.error("Attempted to add track twice to playlist ", track);
-          }
-          else {
+            console.error('Attempted to add track twice to playlist ', track);
+          } else {
             this.playlistCollection.doc(track.trackId).set(track);
           }
         }))
@@ -129,9 +127,8 @@ export class SessionService {
         tap(snapshot => {
           const exists = snapshot.payload.exists;
           if (exists) {
-            console.error("Attempted to add track twice to queue", track);
-          }
-          else {
+            console.error('Attempted to add track twice to queue', track);
+          } else {
             this.trackQueueCollection.doc(track.trackId).set(queuedTrack);
           }
         }))
@@ -155,9 +152,8 @@ export class SessionService {
             const newVotes = (track.votes || 1) + (votes || 1);
             this.playlistCollection.doc(track.trackId).update({votes: newVotes});
             console.log(`Upvoted track ${track.trackId} from ${track.votes} to ${newVotes}`);
-          }
-          else {
-            console.error("Attempted to upvote an unknown track! ", track);
+          } else {
+            console.error('Attempted to upvote an unknown track! ', track);
           }
         }))
       .subscribe();
