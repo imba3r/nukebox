@@ -93,8 +93,20 @@ export class SessionService {
   /**
    * Only to be called by the master device!!
    */
-  addToPlaylist(track: FireStoreTrack) {
-    this.playlistCollection.doc(track.trackId).set(track);
+  addToPlaylist(track: FireStoreTrack): void {
+    this.playlistCollection.doc(track.trackId).snapshotChanges()
+      .pipe(
+        take(1),
+        tap(snapshot => {
+          const exists = snapshot.payload.exists;
+          if (exists) {
+            console.error("Attempted to add track twice to playlist ", track);
+          }
+          else {
+            this.playlistCollection.doc(track.trackId).set(track);
+          }
+        }))
+      .subscribe();
   }
 
   getTrackQueue(): Observable<FireStoreTrack[]> {
@@ -104,9 +116,51 @@ export class SessionService {
   /**
    * Clients may add tracks here, the master will collect them and call addToPlaylist on their behalf.
    */
-  addToTrackQueue(track: FireStoreTrack) {
-    const queuedTrack = {...track, dateAdded: new Date().toISOString()};
-    this.trackQueueCollection.doc(track.trackId).set(queuedTrack);
+  addToTrackQueue(track: FireStoreTrack, votes?: number): void {
+    const queuedTrack = {
+      ...track,
+      dateAdded: new Date().toISOString(),
+      votes: votes || 1,
+    };
+
+    this.trackQueueCollection.doc(track.trackId).snapshotChanges()
+      .pipe(
+        take(1),
+        tap(snapshot => {
+          const exists = snapshot.payload.exists;
+          if (exists) {
+            console.error("Attempted to add track twice to queue", track);
+          }
+          else {
+            this.trackQueueCollection.doc(track.trackId).set(queuedTrack);
+          }
+        }))
+      .subscribe();
+  }
+
+  removeQueuedTrack(track: FireStoreTrack): void {
+    this.trackQueueCollection.doc(track.trackId).delete()
+      .then(value => console.log(value))
+      .catch(value => console.error(value));
+  }
+
+  upvoteTrack(track: FireStoreTrack, votes?: number): void {
+    this.playlistCollection.doc(track.trackId).snapshotChanges()
+      .pipe(
+        take(1),
+        tap(snapshot => {
+          const exists = snapshot.payload.exists;
+          if (exists) {
+            const track = snapshot.payload.data() as FireStoreTrack;
+            const newVotes = (track.votes || 1) + (votes || 1);
+            this.playlistCollection.doc(track.trackId).update({votes: newVotes});
+            console.log(`Upvoted track ${track.trackId} from ${track.votes} to ${newVotes}`);
+          }
+          else {
+            console.error("Attempted to upvote an unknown track! ", track);
+          }
+        }))
+      .subscribe();
   }
 
   private createSession(userName: string): FireStoreSession {
