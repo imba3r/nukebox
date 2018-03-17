@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {MasterClientComponent} from '@app/master-client/master-client/master-client.component';
 import {Oauth2Service} from '@app/oauth2.service';
 import { LoginCallbackComponent } from './login-callback/login-callback.component';
+import {MasterPlaylistService} from '@app/master-client/service/master-playlist-service';
 
 @NgModule({
   exports: [
@@ -13,6 +14,6 @@ import { LoginCallbackComponent } from './login-callback/login-callback.componen
 
   ],
   declarations: [MasterClientComponent, LoginCallbackComponent],
-  providers: []
+  providers: [MasterPlaylistService]
 })
 export class MasterClientModule { }
