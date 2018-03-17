@@ -50,14 +50,12 @@ export class SessionService {
   }
 
   getSpotifyKey(): Observable<string> {
-    return this.session$.map(session => {
-      console.log('Test');
+    return this.session$.pipe(map(session => {
       if (session) {
-
         return session.spotifyKey;
       }
       return '';
-    });
+    }));
   }
 
   setSpotifyKey(key: string) {
@@ -65,21 +63,21 @@ export class SessionService {
   }
 
   getMasterUser(): Observable<string> {
-    return this.session$.map(session => {
+    return this.session$.pipe(map(session => {
       if (session) {
         return session.masterUser;
       }
       return '';
-    });
+    }));
   }
 
   getUsers(): Observable<string[]> {
-    return this.session$.map(session => {
+    return this.session$.pipe(map(session => {
       if (session) {
         return session.users;
       }
       return [];
-    });
+    }));
   }
 
   getSession(): Observable<FireStoreSession> {
