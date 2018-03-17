@@ -22,7 +22,7 @@ export class PlaylistComponent implements OnInit {
   constructor(private sessionService: SessionService, private playlistService: PlaylistService) {
     this.currentTrack$ = PlaylistService.getCurrentTrack();
 
-    this.queue$ = this.playlistService.getQueue(this.sessionService.getPlaylist());
+    this.queue$ = this.playlistService.getQueue(sessionService.getPlaylist());
 
     this.users$ = sessionService.getUsers();
 
