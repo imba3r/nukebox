@@ -1,4 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {PlaylistService} from '@app/playlist/services/playlist.service';
 
 @Component({
@@ -7,16 +7,12 @@ import {PlaylistService} from '@app/playlist/services/playlist.service';
   styleUrls: ['./addsong.component.scss']
 })
 export class AddsongComponent implements OnInit {
-  trackId: string;
-
-  constructor() {
-    this.trackId = '12345';
-  }
+  constructor() {}
 
   ngOnInit() {
   }
 
-  addSong() {
-      PlaylistService.addSong(this.trackId);
+  addSong(trackId) {
+      PlaylistService.addSong(trackId);
   }
 }
