@@ -3,9 +3,11 @@ import {Oauth2Service} from '@app/oauth2.service';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {SpotifyUser} from '@app/master-client/types/SpotifyUser';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {SpotifyPlaylist} from '@app/types/spotify/spotify-playlist';
-import {flatMap} from 'tslint/lib/utils';
+import {SessionService} from '@app/services/session.service';
+import {isNullOrUndefined} from 'util';
+import {FireStoreTrack} from '@app/types';
 
 interface AddToPlaylistRequest {
   uris?: Array<string>;
@@ -28,7 +30,6 @@ interface CreatePlaylistRequest {
 }
 
 
-
 @Injectable()
 export class MasterPlaylistService {
   private readonly addToQueueUri: string = 'https://api.spotify.com/v1/me/player/play';
@@ -36,7 +37,7 @@ export class MasterPlaylistService {
   private ngxPlaylist: SpotifyPlaylist;
   private spotifyUser: SpotifyUser;
 
-  constructor(private oAuth2Service: Oauth2Service, private http: HttpClient) {
+  constructor(private oAuth2Service: Oauth2Service, private http: HttpClient, private sessionService: SessionService) {
 
   }
 
@@ -44,6 +45,23 @@ export class MasterPlaylistService {
    * Creates the NBX-Playlist
    */
   public initService = (): Observable<void> => {
+    this.sessionService.getTrackQueue().pipe(
+      map((tracks: Array<FireStoreTrack>) => {
+        if (tracks.length > 0) {
+          return tracks[0];
+        } else {
+          return null;
+        }
+      }),
+      tap(console.log),
+      filter((fireStoreTrack: FireStoreTrack) => isNullOrUndefined(fireStoreTrack)),
+      tap(fireBaseTrack => this.addTrackToPlaylist(fireBaseTrack.trackId)),
+      tap(() => console.log('Track added')),
+      tap(fireBaseTrack => this.sessionService.removeQueuedTrack(fireBaseTrack)),
+      tap(() => console.log('Removed from Queue'))
+    ).subscribe();
+
+
     return this.resolveUser()
       .pipe(
         tap(x => this.spotifyUser = x),
@@ -58,9 +76,10 @@ export class MasterPlaylistService {
       );
   }
 
-  public addTrackToPlaylist = (trackId: string): Observable<void> => {
+  public addTrackToPlaylist = (trackId: string): Observable<string> => {
     const uri = `'https://api.spotify.com/v1/users/${this.spotifyUser.id}/playlists/${this.ngxPlaylist.id}/tracks'`;
-    return this.http.post<void>(this.addToQueueUri, this.addTrackRequest(trackId), this.authHeader());
+    return this.http.post<void>(this.addToQueueUri, this.addTrackRequest(trackId), this.authHeader())
+      .pipe(map(() => trackId));
   }
 
   public removeTrackFromPlaylist = (trackId: string): Observable<void> => {
@@ -118,6 +137,4 @@ export class MasterPlaylistService {
       uri: trackId
     };
   }
-
-
 }
