@@ -4,6 +4,7 @@ import {environment} from '@env/environment';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 
+
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {PreloadAllModules, RouterModule} from '@angular/router';
@@ -14,6 +15,9 @@ import {ROUTES} from '@app/routes';
 import {ClientComponent} from './client/client.component';
 import {PlaylistModule} from '@app/playlist/playlist.module';
 
+import {ClientComponent} from './client/client.component';
+import {PlaylistModule} from '@app/playlist/playlist.module';
+import {SearchModule} from './search/search.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +30,7 @@ import {PlaylistModule} from '@app/playlist/playlist.module';
     HttpClientModule,
     RouterModule.forRoot(ROUTES, { preloadingStrategy: PreloadAllModules }),
     BrowserModule,
+    SearchModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     PlaylistModule
