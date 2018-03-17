@@ -1,6 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Device} from '@app/playlist/types/device';
-import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'nbx-header',

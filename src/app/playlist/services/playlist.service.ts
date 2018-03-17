@@ -28,9 +28,9 @@ export class PlaylistService {
     console.log('addSong ' + trackId);
   }
 
-  static getQueue(fireStoreTracks: Observable<FireStoreTrack[]>): Observable<Array<Track>> {
-    // let tracks$ = fireStoreTracks.pipe(map(this.mapSpotifyTracks));
-    return of([this.getDummyTrack(), this.getDummyTrack()]);
+  getQueue(fireStoreTracks: Observable<FireStoreTrack[]>): Observable<Array<Track>> {
+    return fireStoreTracks.pipe(map(this.mapSpotifyTracks));
+    // return of([this.getDummyTrack(), this.getDummyTrack()]);
   }
 
   static getDevice() {
