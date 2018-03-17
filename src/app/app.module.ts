@@ -17,6 +17,7 @@ import {PlaylistModule} from '@app/playlist/playlist.module';
 import {SearchModule} from './search/search.module';
 import {FormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material';
+import { SearchService } from '@app/search.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import {MatCardModule} from '@angular/material';
     AngularFirestoreModule,
     PlaylistModule
   ],
-  providers: [Oauth2Service, SessionService],
+  providers: [Oauth2Service, SessionService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

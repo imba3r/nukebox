@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {debounceTime, distinctUntilChanged, startWith, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs/observable/of';
 import {Track} from '@app/types';
-import {SearchService} from '@app/search/search.service';
+import {SearchService} from '@app/search.service';
 import {SnotifyService} from 'ng-snotify';
 import {SessionService} from '@app/services/session.service';
 

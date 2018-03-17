@@ -9,7 +9,7 @@ import {SearchAutocompleteComponent} from './search-autocomplete/search-autocomp
 import {SearchComponent} from './search.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { SearchService } from '@app/search/search.service';
+import { SearchService } from '@app/search.service';
 import { HttpClientModule } from '@angular/common/http';
 import {SnotifyService} from 'ng-snotify';
 import {ToastDefaults} from 'ng-snotify';
@@ -33,7 +33,6 @@ import {SnotifyModule} from 'ng-snotify';
     SearchComponent
   ],
   providers: [
-    SearchService,
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
     SnotifyService
   ],

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Track } from '@app/types';
-import { SessionService } from '@app/services/session.service';
+import { FireStoreTrack, Track } from './types';
+import { SessionService } from './services/session.service';
 import { concatMap, map } from 'rxjs/operators';
 
 interface SearchResult {
@@ -24,6 +24,13 @@ export class SearchService {
       map(token => this.getHeader(token)),
       concatMap((header) => this.http.get<SearchResult>(`${this.API_URL}/search?q=${title}&type=track`, {headers: header})),
       map(result => result.tracks.items)
+    );
+  }
+
+  public fetch(track: FireStoreTrack): Observable<Track> {
+    return this.sessionService.getSpotifyKey().pipe(
+      map(token => this.getHeader(token)),
+      concatMap((header) => this.http.get<Track>(`${this.API_URL}/tracks/${track.trackId}`, {headers: header})),
     );
   }
 
