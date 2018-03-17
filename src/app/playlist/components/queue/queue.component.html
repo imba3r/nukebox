@@ -1,16 +1,17 @@
+<mat-card style="margin-bottom: 10px;">
   <mat-list>
     <mat-list-item *ngFor="let track of queue">
       <div fxLayout fxLayoutAlign="space-between center" fxFlex>
-<div fxFlex="10%">
-        <mat-chip-list class="mat-chip-list-stacked">
-          <mat-chip>
-            5
-          </mat-chip>
-        </mat-chip-list>
-</div>
-<div>
-        {{track.name}}
-</div>
+        <div fxFlex="10%">
+          <mat-chip-list class="mat-chip-list-stacked">
+            <mat-chip>
+              5
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+        <div>
+          {{track.name}}
+        </div>
         <div class="button-row right" fxFlex="20%">
 
           <button mat-icon-button (click)="voteUp(track.id)">
@@ -21,7 +22,8 @@
           </button>
         </div>
 
-    </div>
+      </div>
 
     </mat-list-item>
   </mat-list>
+</mat-card>

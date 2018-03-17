@@ -1,31 +1,27 @@
 <!--<mat-toolbar>-->
-  <!--<mat-input-container dividerColor="accent" class="trm-search-container">-->
-    <!--<input matInput type="text" (input)="terms$.next($event.target.value)">-->
-  <!--</mat-input-container>-->
-  <!--<mat-icon color="accent">search</mat-icon>-->
+<!--<mat-input-container dividerColor="accent" class="trm-search-container">-->
+<!--<input matInput type="text" (input)="terms$.next($event.target.value)">-->
+<!--</mat-input-container>-->
+<!--<mat-icon color="accent">search</mat-icon>-->
 <!--</mat-toolbar>-->
 
 
 <!--<mat-list>-->
-  <!--<a mat-list-item-->
-     <!--[routerLink]="['/contact', contact.id]"-->
-     <!--*ngFor="let contact of contacts$ | async; trackBy:trackByContactId"-->
-     <!--title="View {{contact.name}} details">-->
+<!--<a mat-list-item-->
+<!--[routerLink]="['/contact', contact.id]"-->
+<!--*ngFor="let contact of contacts$ | async; trackBy:trackByContactId"-->
+<!--title="View {{contact.name}} details">-->
 
-    <!--<img mat-list-avatar [src]="contact.image" alt="Picture of {{contact.name}}" class="circle">-->
-    <!--<h3 mat-line>{{contact.name}}</h3>-->
-  <!--</a>-->
+<!--<img mat-list-avatar [src]="contact.image" alt="Picture of {{contact.name}}" class="circle">-->
+<!--<h3 mat-line>{{contact.name}}</h3>-->
+<!--</a>-->
 <!--</mat-list>-->
 
 <nbx-header [device]="device$ | async"></nbx-header>
-<mat-card style="width: 50%; margin: auto">
+<div style="width: 50%; margin: auto">
   <nbx-nowplaying [track]="currentTrack$ | async"></nbx-nowplaying>
-<nbx-queue [queue]="queue$ | async"></nbx-queue>
-</mat-card>
-
-<mat-card style="width: 50%; margin: auto; margin-top: 10px;">
+  <nbx-queue [queue]="queue$ | async"></nbx-queue>
   <nbx-addsong></nbx-addsong>
-</mat-card>
-
-<nbx-search></nbx-search>
+  <nbx-search></nbx-search>
+</div>
 

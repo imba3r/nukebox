@@ -1,11 +1,13 @@
-<mat-card-title>Add</mat-card-title>
-<mat-card-content>
-  <div fxLayout fxLayoutAlign="space-between center" fxFlex>
-    <mat-form-field>
-      <input matInput #trackId placeholder="trackId">
-    </mat-form-field>
-    <div class="button-row right">
-      <button mat-raised-button (click)="addSong(trackId.value)">Add</button>
+<mat-card>
+  <mat-card-title>Add</mat-card-title>
+  <mat-card-content>
+    <div fxLayout fxLayoutAlign="space-between center" fxFlex>
+      <mat-form-field>
+        <input matInput #trackId placeholder="trackId">
+      </mat-form-field>
+      <div class="button-row right">
+        <button mat-raised-button (click)="addSong(trackId.value)">Add</button>
+      </div>
     </div>
-  </div>
-</mat-card-content>
+  </mat-card-content>
+</mat-card>
