@@ -27,7 +27,7 @@ export class PlaylistComponent implements OnInit {
     this.device$ = PlaylistService.getDevice();
     this.queue$ = PlaylistService.getQueue();
 
-    this.sessionService.addToPlaylist({trackId: '2DC4w5CmVFGr0YG56BwLKg'});
+    this.sessionService.addToPlaylist({trackId: '2DC4w5CmVFGr0YG56BwLKg', votes: 4});
     this.sessionService.getPlaylist().pipe(first())
       .subscribe((v: FireStoreTrack[]) => v.forEach(track => {
         this.searchService.fetch(track).subscribe(t => {
