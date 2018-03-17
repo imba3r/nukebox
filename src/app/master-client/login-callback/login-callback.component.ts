@@ -18,6 +18,7 @@ export class LoginCallbackComponent implements OnInit {
 
   ngOnInit() {
     this.oauth2Service.registerOAuthData(location.hash);
+    this.sessionService.setSpotifyKey(this.oauth2Service.currentToken);
     this.playlistService.initService()
       .subscribe(() => this.router.navigate(['/']));
   }
