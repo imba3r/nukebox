@@ -1,6 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatAutocompleteModule, MatCardModule, MatInputModule, MatSlideToggleModule} from '@angular/material';
+import {
+  MatAutocompleteModule, MatButtonModule, MatCardModule, MatInputModule,
+  MatSlideToggleModule
+} from '@angular/material';
 
 import {SearchAutocompleteComponent} from './search-autocomplete/search-autocomplete.component';
 import {SearchComponent} from './search.component';
@@ -12,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   imports: [
     CommonModule,
+    MatButtonModule,
     MatCardModule,
     HttpClientModule,
     ReactiveFormsModule,

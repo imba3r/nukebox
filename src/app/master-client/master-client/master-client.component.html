@@ -1,5 +1,11 @@
-<button (click)="login()" mat-button color="primary">Share Device</button>
-<div>
-  {{accessToken}}
+<div class="flex-container">
+  <mat-card style="width: 300px">
+    <div>
+      <button mat-raised-button color="primary" (click)="login()">Share My Device</button>
+    </div>
+      <div>
+        <button mat-raised-button color="warn" (click)="logout()">I do not want anymore</button>
+      </div>
+  </mat-card>
 </div>
 

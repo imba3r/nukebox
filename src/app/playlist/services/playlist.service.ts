@@ -35,7 +35,7 @@ export class PlaylistService {
 
   static getDevice() {
     return of({
-      name: 'Nikolas boombox'
+      name: 'The Nukebox'
     });
   }
 
