@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Oauth2Service} from '@app/oauth2.service';
 import {Router} from '@angular/router';
 import {MasterPlaylistService} from '@app/master-client/service/master-playlist-service';
+import {SessionService} from '@app/services/session.service';
 
 @Component({
   selector: 'nbx-login-callback',
@@ -9,7 +10,11 @@ import {MasterPlaylistService} from '@app/master-client/service/master-playlist-
 })
 export class LoginCallbackComponent implements OnInit {
 
-  constructor(private oauth2Service: Oauth2Service, private router: Router, private playlistService: MasterPlaylistService) { }
+  constructor(private oauth2Service: Oauth2Service,
+              private router: Router,
+              private playlistService: MasterPlaylistService,
+              private sessionService: SessionService
+  ) { }
 
   ngOnInit() {
     this.oauth2Service.registerOAuthData(location.hash);

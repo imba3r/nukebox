@@ -12,14 +12,15 @@ import {MasterClientModule} from '@app/master-client/master-client.module';
 import {Oauth2Service} from '@app/oauth2.service';
 import {SessionService} from './services/session.service';
 import {ROUTES} from '@app/routes';
-import {ClientComponent} from './client/client.component';
+import {ClientComponent} from './master-client/client.component';
 import {PlaylistModule} from '@app/playlist/playlist.module';
 import {SearchModule} from './search/search.module';
+import {FormsModule} from '@angular/forms';
+import {MatCardModule} from '@angular/material';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ClientComponent
+    AppComponent
   ],
   imports: [
     MasterClientModule,

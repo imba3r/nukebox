@@ -59,8 +59,8 @@ export class SessionService {
   }
 
   addToPlaylist(track: FireStoreTrack) {
-    const track = {...track, dateAdded: new Date().toISOString()} ;
-    this.playlistCollection.doc(track.trackId).set(track);
+    /*const track = {...track, dateAdded: new Date().toISOString()} ;
+    this.playlistCollection.doc(track.trackId).set(track);*/
   }
 
   private createSession(userName: string): FireStoreSession {
