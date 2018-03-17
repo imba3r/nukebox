@@ -23,7 +23,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {AddsongComponent} from './components/addsong/addsong.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchModule} from '@app/search/search.module';
-import {UsersComponent} from './components/users/users.component';
 import {FormsModule} from '@angular/forms';
 
 @NgModule({

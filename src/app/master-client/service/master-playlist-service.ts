@@ -41,9 +41,28 @@ export class MasterPlaylistService {
 
   }
 
+  private static addTrackRequest(trackId: string): AddToPlaylistRequest {
+    return {
+      uris: [trackId]
+    };
+  }
+
+  private static authHeader(key: string) {
+    return {
+      headers: new HttpHeaders({'Authorization': `Bearer ${key}`})
+    };
+  }
+
+  private static createNGXPlaylistRequest(playlistSuffix: string): CreatePlaylistRequest {
+    return {
+      name: '##-NGX-PLST-##-' + playlistSuffix,
+      description: 'NGX Playlist',
+      public: false
+    };
+  }
 
   public initMessageQueue = () => {
-    console.info('Starting Messaging Queue service for master client');
+    console.log('Starting Messaging Queue service for master client');
     this.resolveUser()
       .subscribe(user => {
         this.spotifyUser = user;
@@ -67,12 +86,12 @@ export class MasterPlaylistService {
   /**
    * Creates the NBX-Playlist
    */
-  public initService = (): Observable<void> => {
+  public initPlaylist = (playlistSuffix: string): Observable<void> => {
     return this.resolveUser()
       .pipe(
         tap(x => this.spotifyUser = x),
         switchMap(user => {
-          return this.createNGXPlaylist(user.id);
+          return this.createNGXPlaylist(user.id, playlistSuffix);
         }),
         tap(playlist => this.ngxPlaylist = playlist),
         map(playlist => {
@@ -84,58 +103,39 @@ export class MasterPlaylistService {
 
   public addTrackToPlaylist = (trackId: string): Observable<string> => {
     const uri = `'https://api.spotify.com/v1/users/${this.spotifyUser.id}/playlists/${this.ngxPlaylist.id}/tracks'`;
-    return this.authHeader().pipe(concatMap(options => {
-      return this.http.post<void>(uri, this.addTrackRequest(trackId), options)
+    return this.sessionService.getSpotifyKey().
+      pipe(concatMap(key => {
+      return this.http.post<void>(uri, MasterPlaylistService.addTrackRequest(trackId), MasterPlaylistService.authHeader(key))
         .pipe(map(() => trackId));
     }));
   }
 
   public removeTrackFromPlaylist = (trackId: string): Observable<void> => {
     const uri = `'https://api.spotify.com/v1/users/${this.spotifyUser.id}/playlists/${this.ngxPlaylist.id}/tracks'`;
-    return this.authHeader().pipe(concatMap(options => {
-      const finalOptions = Object.assign(options, {
-        body: this.removeTrackRequest([trackId])
-      });
-      return this.http.delete<void>(uri, finalOptions).pipe(map(() => null));
-    }));
-  }
-
-  private resolveUser = () => {
-    return this.authHeader().pipe(concatMap(options => {
-      return this.http.get<SpotifyUser>(this.currentUserUrl, options as any);
-    }));
-  }
-
-  private createNGXPlaylist = (userId: string) => {
-    const uri = `https://api.spotify.com/v1/users/${userId}/playlists`;
-    return this.authHeader().pipe(
-      concatMap(options => {
-        return this.http.post<SpotifyPlaylist>(uri, this.createNGXPlaylistRequest(), options);
-      })
-    );
-  }
-
-  private addTrackRequest(trackId: string): AddToPlaylistRequest {
-    return {
-      uris: [trackId]
-    };
-  }
-
-  private authHeader(): Observable<any> {
     return this.sessionService.getSpotifyKey()
-      .pipe(map(key => {
-        return {
-          headers: new HttpHeaders({'Authorization': `Bearer ${key}`})
-        };
+      .pipe(concatMap(key => {
+        const finalOptions = Object.assign(MasterPlaylistService.authHeader(key), {
+          body: this.removeTrackRequest([trackId])
+        });
+        return this.http.delete<void>(uri, finalOptions).pipe(map(() => null));
       }));
   }
 
-  private createNGXPlaylistRequest(): CreatePlaylistRequest {
-    return {
-      name: '##-NGX-PLST-##',
-      description: 'NGX Playlist',
-      public: false
-    };
+  private resolveUser = () => {
+    return this.sessionService.getSpotifyKey()
+      .pipe(concatMap(key => {
+        return this.http.get<SpotifyUser>(this.currentUserUrl, MasterPlaylistService.authHeader(key));
+      }));
+  }
+
+  private createNGXPlaylist = (userId: string, playlistSuffix: string) => {
+    const uri = `https://api.spotify.com/v1/users/${userId}/playlists`;
+    return this.sessionService.getSpotifyKey()
+      .pipe(concatMap(key => {
+        return this.http.post<SpotifyPlaylist>(uri,
+          MasterPlaylistService.createNGXPlaylistRequest(playlistSuffix),
+          MasterPlaylistService.authHeader(key));
+      }));
   }
 
   private removeTrackRequest(trackIds: Array<string>): RemoveFromPlaylistRequest {
