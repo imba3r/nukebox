@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
       console.log("No cookie set...");
     }
     else {
-      this.sessionService.initializeSession(sessionName, userName)
+      this.sessionService.initializeSession(userName, sessionName)
         .subscribe(session => {
           console.log('Session restored!');
           if (!session || !session.spotifyKey || session.spotifyKey === INITIAL_KEY) {
