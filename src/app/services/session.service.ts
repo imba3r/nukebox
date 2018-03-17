@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { map, take, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { FireStoreSession, FireStoreTrack } from '@app/types';
+import { isNullOrUndefined } from 'util';
 
 @Injectable()
 export class SessionService {
@@ -27,19 +28,27 @@ export class SessionService {
       tap(v => console.log(v)),
       map(snapshot => snapshot.payload.exists),
       withLatestFrom(this.session$),
-      take(1)
-    ).subscribe(([exists, session]) => {
-      if (!exists) {
-        this.sessionDoc.set(this.createSession(userName));
-      }
-      if (!session.users.find(name => name === userName)) {
-        this.sessionDoc.update({users: [...session.users, userName]});
-      }
-    });
+      take(1),
+      map(([exists, session]) => {
+        if (!exists) {
+          this.sessionDoc.set(this.createSession(userName));
+        }
+        else if (!session.users.find(name => name === userName)) {
+          this.sessionDoc.update({users: [...session.users, userName]});
+        }
+        return session
+      })
+    ).subscribe();
+
+    return this.session$.pipe(filter(session => !isNullOrUndefined(session)));
   }
 
   getSpotifyKey(): Observable<string> {
-    return this.session$.map(session => session.spotifyKey);
+    return this.session$.map(session => session && session.spotifyKey || '');
+  }
+
+  setSpotifyKey(key: string) {
+    this.sessionDoc.update({spotifyKey: key});
   }
 
   getMasterUser(): Observable<string> {
