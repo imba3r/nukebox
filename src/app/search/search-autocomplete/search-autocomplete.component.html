@@ -3,7 +3,8 @@
   <mat-form-field style="width: 70%;">
     <input type="text" placeholder="Search" aria-label="Number" matInput [formControl]="search" [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let title of titles | async" [value]="title.name">
+      <mat-option *ngFor="let title of titles | async" [value]="title.name"
+                  (onSelectionChange)="onSelect(title)">
         <img style="vertical-align:middle;" aria-hidden src="{{title.album.images[2].url}}" height="45" />
         <span>{{ title.name }}</span> |
         <small>Artist: {{title.artists[0].name}}</small> |

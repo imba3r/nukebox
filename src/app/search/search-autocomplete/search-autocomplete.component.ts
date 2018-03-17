@@ -21,6 +21,7 @@ export class SearchAutocompleteComponent implements OnInit {
   search: FormControl;
 
   titles: Observable<Track[]>;
+  track: Track;
 
   constructor(private searchService: SearchService) {
   }
@@ -52,7 +53,11 @@ export class SearchAutocompleteComponent implements OnInit {
   }
 
   addTitleToPlaylist() {
-    console.log(this.search);
-    PlaylistService.addSong('');
+    console.log(this.track);
+    PlaylistService.addSong(this.track.id);
   }
+
+  onSelect(item: Track) {
+    this.track = item;
+}
 }
