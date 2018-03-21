@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PlaylistService} from '@app/playlist/services/playlist.service';
-import {Track} from '@app/types';
+import {FireStoreTrack, Track} from '@app/types';
 import { SessionService } from '@app/services/session.service';
+import {toFireStoreTrack} from "@app/NukeboxUtils";
 
 @Component({
   selector: 'nbx-queue',
@@ -9,7 +10,7 @@ import { SessionService } from '@app/services/session.service';
   styleUrls: ['./queue.component.scss']
 })
 export class QueueComponent implements OnInit {
-  @Input() queue: Array<Track>;
+  @Input() queue: Array<FireStoreTrack>;
 
   constructor(private sessionService: SessionService) {
   }
@@ -17,12 +18,11 @@ export class QueueComponent implements OnInit {
   ngOnInit() {
   }
 
-  voteUp(trackId) {
-    this.sessionService.upvoteTrack({trackId: trackId}, 1);
-    PlaylistService.voteUp(trackId);
+  voteUp(track: FireStoreTrack) {
+    this.sessionService.upvoteTrack(track, 1);
   }
 
-  voteDown(trackId) {
-    this.sessionService.upvoteTrack({trackId: trackId}, -1);
+  voteDown(track: FireStoreTrack) {
+    this.sessionService.upvoteTrack(track, -1);
   }
 }

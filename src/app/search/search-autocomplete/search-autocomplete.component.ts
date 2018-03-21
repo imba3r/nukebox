@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {debounceTime, distinctUntilChanged, startWith, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs/observable/of';
-import {Track} from '@app/types';
+import {FireStoreTrack, Track} from '@app/types';
 import {SearchService} from '@app/search.service';
 import {SnotifyService} from 'ng-snotify';
 import {SessionService} from '@app/services/session.service';
@@ -48,10 +48,11 @@ export class SearchAutocompleteComponent implements OnInit {
   }
 
   addTitleToPlaylist() {
-    const firebaseTrack = {
-      trackId: this.track.uri
+    const fireStoreTrack: FireStoreTrack = {
+      trackId: this.track.id,
+      trackUri: this.track.uri
     };
-    this.sessionService.addToTrackQueue(firebaseTrack);
+    this.sessionService.addToTrackQueue(fireStoreTrack);
     this.snotifyService.success('Title successfully added to the playlist.', {
       timeout: 3000,
       showProgressBar: false,

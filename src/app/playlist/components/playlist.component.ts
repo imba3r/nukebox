@@ -3,10 +3,14 @@ import {Device} from '@app/playlist/types/device';
 import {PlaylistService} from '@app/playlist/services/playlist.service';
 import {Observable} from 'rxjs/Observable';
 import {Track} from '@app/types/spotify/track-simplified.interface';
-import { SessionService } from '@app/services/session.service';
-import { SearchService } from '@app/search.service';
-import { first, map } from 'rxjs/operators';
-import { FireStoreTrack } from '@app/types';
+import {SessionService} from '@app/services/session.service';
+import {SearchService} from '@app/search.service';
+import {first, map, merge, mergeMap, reduce, switchMap, tap, toArray} from 'rxjs/operators';
+import {FireStoreTrack} from '@app/types';
+import {of} from 'rxjs/observable/of';
+import {identity} from "rxjs/util/identity";
+import {toFireStoreTrack} from "@app/NukeboxUtils";
+import {from} from "rxjs/observable/from";
 
 @Component({
   selector: 'nbx-playlist',
@@ -17,27 +21,19 @@ export class PlaylistComponent implements OnInit {
 
   currentTrack$: Observable<Track>;
   device$: Observable<Device>;
-  queue$: Observable<Array<Track>>;
 
-  tracks = [];
+  tracks$: Observable<Array<FireStoreTrack>>;
 
   constructor(private sessionService: SessionService,
               public searchService: SearchService) {
     this.currentTrack$ = PlaylistService.getCurrentTrack();
     this.device$ = PlaylistService.getDevice();
-    this.queue$ = PlaylistService.getQueue();
 
-    this.sessionService.addToPlaylist({trackId: '2DC4w5CmVFGr0YG56BwLKg', votes: 4});
-    this.sessionService.getPlaylist().pipe(first())
-      .subscribe((v: FireStoreTrack[]) => v.forEach(track => {
-        this.searchService.fetch(track).subscribe(t => {
-          this.tracks.push({...t, votes: track.votes});
-          this.tracks = [...this.tracks];
-        });
-      }));
+
   }
 
   ngOnInit() {
+    this.tracks$ = this.sessionService.getPlaylist();
   }
 
 }

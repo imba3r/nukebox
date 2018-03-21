@@ -21,23 +21,21 @@ export class SearchService {
 
   public search(title: string): Observable<Track[]> {
     return this.sessionService.getSpotifyKey().pipe(
-      map(token => this.getHeader(token)),
+      map(token => SearchService.getHeader(token)),
       concatMap((header) => this.http.get<SearchResult>(`${this.API_URL}/search?q=${title}&type=track`, {headers: header})),
       map(result => result.tracks.items)
     );
   }
 
-  public fetch(track: FireStoreTrack): Observable<Track> {
+  public fetch = (track: FireStoreTrack): Observable<Track> => {
     return this.sessionService.getSpotifyKey().pipe(
-      map(token => this.getHeader(token)),
+      map(token => SearchService.getHeader(token)),
       concatMap((header) => this.http.get<Track>(`${this.API_URL}/tracks/${track.trackId}`, {headers: header})),
     );
   }
 
-  private getHeader(token: string) {
-    console.log(token);
-    let headers = new HttpHeaders().set('Content-Type', 'application/json')
+  private static getHeader(token: string) {
+    return new HttpHeaders().set('Content-Type', 'application/json')
       .set('authorization', 'Bearer ' + token);
-    return headers;
   }
 }

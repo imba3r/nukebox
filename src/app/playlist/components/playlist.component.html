@@ -22,9 +22,8 @@
 <mat-card style="width: 60%; margin: auto; margin-top: 10px;">
   <nbx-nowplaying [track]="currentTrack$ | async"></nbx-nowplaying>
 </mat-card>
-
 <mat-card style="width: 60%; margin: auto; margin-top: 10px;">
-  <nbx-queue [queue]="tracks"></nbx-queue>
+  <nbx-queue [queue]="tracks$ | async"></nbx-queue>
 </mat-card>
 
 <nbx-search></nbx-search>

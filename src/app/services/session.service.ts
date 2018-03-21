@@ -108,6 +108,10 @@ export class SessionService {
       .subscribe();
   }
 
+  removeFromPlaylist(track: FireStoreTrack): Promise<void> {
+    return this.playlistCollection.doc(track.trackId).delete();
+  }
+
   getTrackQueue(): Observable<FireStoreTrack[]> {
     return this.trackQueueCollection.valueChanges();
   }
@@ -142,19 +146,23 @@ export class SessionService {
       .catch(value => console.error(value));
   }
 
-  upvoteTrack(track: FireStoreTrack, votes?: number): void {
-    this.playlistCollection.doc(track.trackId).snapshotChanges()
+  upvoteTrack(trackToVote: FireStoreTrack, votes: number): void {
+    this.playlistCollection.doc(trackToVote.trackId).snapshotChanges()
       .pipe(
         take(1),
         tap(snapshot => {
           const exists = snapshot.payload.exists;
           if (exists) {
             const track = snapshot.payload.data() as FireStoreTrack;
-            const newVotes = (track.votes || 1) + (votes || 1);
+            let currentVotes = track.votes;
+            if (isNullOrUndefined(currentVotes)) {
+              currentVotes = 1;
+            }
+            const newVotes = currentVotes + votes;
             this.playlistCollection.doc(track.trackId).update({votes: newVotes});
-            console.log(`Upvoted track ${track.trackId} from ${track.votes} to ${newVotes}`);
+            console.log(`Vote for track ${track.trackId} changed from ${track.votes} to ${newVotes}`);
           } else {
-            console.error('Attempted to upvote an unknown track! ', track);
+            console.error('Attempted to upvote an unknown track! ', trackToVote);
           }
         }))
       .subscribe();

@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
             this.router.navigate(['/master/login']);
           } else {
             if (session.masterUser === userName) {
-              this.playlistService.initMessageQueue();
+              this.playlistService.initMasterService();
             }
             this.router.navigate(['/playlist']);
           }

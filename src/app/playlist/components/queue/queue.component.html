@@ -9,14 +9,14 @@
         </mat-chip-list>
 </div>
 <div>
-        {{track.name}}
+        {{track.trackUri}}
 </div>
         <div class="button-row right" fxFlex="20%">
 
-          <button mat-icon-button (click)="voteUp(track.id)">
+          <button mat-icon-button (click)="voteUp(track)">
             <mat-icon aria-label="Up">thumb_up</mat-icon>
           </button>
-          <button mat-icon-button (click)="voteDown(track.id)">
+          <button mat-icon-button (click)="voteDown(track)">
             <mat-icon aria-label="Down">thumb_down</mat-icon>
           </button>
         </div>

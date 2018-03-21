@@ -61,11 +61,18 @@ export class MasterPlaylistService {
     };
   }
 
-  public initMessageQueue = () => {
+
+  public initMasterService = () => {
     this.sessionService.getSpotifyPlaylistId().subscribe(value => {
       this.spotifyPlaylistId = value;
+      this.initTrackQueue();
+      this.initVotingMechanism();
     });
     console.log('Starting Messaging Queue service for master client');
+
+  };
+
+  private initTrackQueue = () => {
     this.resolveUser()
       .subscribe(user => {
         this.spotifyUser = user;
@@ -79,13 +86,29 @@ export class MasterPlaylistService {
           }),
           tap((track) => console.log('Retrieved firebase track from queue', track)),
           filter((fireStoreTrack: FireStoreTrack) => !isNullOrUndefined(fireStoreTrack)),
-          tap(fireBaseTrack => this.addTrackToPlaylist(fireBaseTrack.trackId).subscribe()),
+          tap(fireBaseTrack => this.addTrackToPlaylist(fireBaseTrack.trackUri).subscribe()),
           tap(() => console.log('Track added')),
           tap(fireBaseTrack => this.sessionService.removeQueuedTrack(fireBaseTrack)),
+          tap(fireBaseTrack => this.sessionService.addToPlaylist(fireBaseTrack)),
           tap(() => console.log('Removed from Queue'))
         ).subscribe();
       });
   };
+
+  private initVotingMechanism = () => {
+    console.debug("Initializing Voting Mechanism");
+    this.sessionService.getPlaylist().subscribe(playlist => {
+      // Each time a playlist change occurs, check if anything has to be kicked out
+      const itemsToBeDeleted = playlist.filter(track => track.votes < 0);
+      itemsToBeDeleted.forEach(item => {
+        console.debug('Removing item', item);
+        this.removeTrackFromPlaylist(item.trackUri).toPromise().then(() => {
+          this.sessionService.removeFromPlaylist(item).then(() => console.debug('Master Playlist service deleted track', item))
+        }) .catch(error => console.error('Could not delete track in master playlist service:', error));
+      });
+    });
+  };
+
   /**
    * Creates the NBX-Playlist
    */
@@ -108,20 +131,23 @@ export class MasterPlaylistService {
       );
   };
 
-  public addTrackToPlaylist = (trackId: string): Observable<string> => {
-    const uri = `https://api.spotify.com/v1/users/${this.spotifyUser.id}/playlists/${this.spotifyPlaylistId}/tracks`;
-    return this.sessionService.getSpotifyKey().pipe(distinctUntilChanged(), concatMap(key => {
-      return this.http.post<void>(uri, MasterPlaylistService.addTrackRequest(trackId), MasterPlaylistService.authHeader(key))
-        .pipe(map(() => trackId));
-    }));
-  };
-
-  public removeTrackFromPlaylist = (trackId: string): Observable<void> => {
+  public addTrackToPlaylist = (trackUri: string): Observable<string> => {
     const uri = `https://api.spotify.com/v1/users/${this.spotifyUser.id}/playlists/${this.spotifyPlaylistId}/tracks`;
     return this.sessionService.getSpotifyKey()
-      .pipe(concatMap(key => {
+      .pipe(distinctUntilChanged(),
+        concatMap(key => {
+          return this.http.post<void>(uri, MasterPlaylistService.addTrackRequest(trackUri), MasterPlaylistService.authHeader(key))
+            .pipe(map(() => trackUri));
+        }));
+  };
+
+  public removeTrackFromPlaylist = (trackUri: string): Observable<void> => {
+    const uri = `https://api.spotify.com/v1/users/${this.spotifyUser.id}/playlists/${this.spotifyPlaylistId}/tracks`;
+    return this.sessionService.getSpotifyKey()
+      .pipe(distinctUntilChanged(),
+        concatMap(key => {
         const finalOptions = Object.assign(MasterPlaylistService.authHeader(key), {
-          body: this.removeTrackRequest([trackId])
+          body: this.removeTrackRequest([trackUri])
         });
         return this.http.delete<void>(uri, finalOptions).pipe(map(() => null));
       }));
@@ -132,8 +158,7 @@ export class MasterPlaylistService {
       .pipe(
         switchMap(key => {
           return this.http.get<SpotifyUser>(this.currentUserUrl, MasterPlaylistService.authHeader(key));
-        }),
-        tap(() => console.log("Resolve user should only trigger once")));
+        }));
   };
 
   private createNGXPlaylist = (userId: string, playlistSuffix: string) => {
@@ -157,5 +182,5 @@ export class MasterPlaylistService {
     return {
       uri: trackId
     };
-  };
+  }
 }
